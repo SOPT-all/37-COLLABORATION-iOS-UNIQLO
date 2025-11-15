@@ -6,6 +6,12 @@
 	objectVersion = 77;
 	objects = {
 
+/* Begin PBXBuildFile section */
+		51C9C69A2EC86E77009925DF /* Then in Frameworks */ = {isa = PBXBuildFile; productRef = 51C9C6992EC86E77009925DF /* Then */; };
+		51C9C69D2EC86E7F009925DF /* SnapKit in Frameworks */ = {isa = PBXBuildFile; productRef = 51C9C69C2EC86E7F009925DF /* SnapKit */; };
+		51C9C6A02EC86EA4009925DF /* Kingfisher in Frameworks */ = {isa = PBXBuildFile; productRef = 51C9C69F2EC86EA4009925DF /* Kingfisher */; };
+/* End PBXBuildFile section */
+
 /* Begin PBXFileReference section */
 		51C9C6802EC86E54009925DF /* 37-COLLABORATION-UNIQLO.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "37-COLLABORATION-UNIQLO.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
@@ -36,6 +42,9 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				51C9C6A02EC86EA4009925DF /* Kingfisher in Frameworks */,
+				51C9C69A2EC86E77009925DF /* Then in Frameworks */,
+				51C9C69D2EC86E7F009925DF /* SnapKit in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -78,6 +87,9 @@
 			);
 			name = "37-COLLABORATION-UNIQLO";
 			packageProductDependencies = (
+				51C9C6992EC86E77009925DF /* Then */,
+				51C9C69C2EC86E7F009925DF /* SnapKit */,
+				51C9C69F2EC86EA4009925DF /* Kingfisher */,
 			);
 			productName = "37-COLLABORATION-UNIQLO";
 			productReference = 51C9C6802EC86E54009925DF /* 37-COLLABORATION-UNIQLO.app */;
@@ -107,6 +119,11 @@
 			);
 			mainGroup = 51C9C6772EC86E54009925DF;
 			minimizedProjectReferenceProxies = 1;
+			packageReferences = (
+				51C9C6982EC86E77009925DF /* XCRemoteSwiftPackageReference "Then" */,
+				51C9C69B2EC86E7F009925DF /* XCRemoteSwiftPackageReference "SnapKit" */,
+				51C9C69E2EC86EA4009925DF /* XCRemoteSwiftPackageReference "Kingfisher" */,
+			);
 			preferredProjectObjectVersion = 77;
 			productRefGroup = 51C9C6812EC86E54009925DF /* Products */;
 			projectDirPath = "";
@@ -150,7 +167,6 @@
 				INFOPLIST_FILE = "37-COLLABORATION-UNIQLO/Info.plist";
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchStoryboardName = LaunchScreen;
-				INFOPLIST_KEY_UIMainStoryboardFile = Main;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
 				LD_RUNPATH_SEARCH_PATHS = (
@@ -178,7 +194,6 @@
 				INFOPLIST_FILE = "37-COLLABORATION-UNIQLO/Info.plist";
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchStoryboardName = LaunchScreen;
-				INFOPLIST_KEY_UIMainStoryboardFile = Main;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
 				LD_RUNPATH_SEARCH_PATHS = (
@@ -335,6 +350,51 @@
 			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
+
+/* Begin XCRemoteSwiftPackageReference section */
+		51C9C6982EC86E77009925DF /* XCRemoteSwiftPackageReference "Then" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/devxoul/Then.git";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 3.0.0;
+			};
+		};
+		51C9C69B2EC86E7F009925DF /* XCRemoteSwiftPackageReference "SnapKit" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/SnapKit/SnapKit.git";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 5.7.1;
+			};
+		};
+		51C9C69E2EC86EA4009925DF /* XCRemoteSwiftPackageReference "Kingfisher" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/onevcat/Kingfisher";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 8.6.1;
+			};
+		};
+/* End XCRemoteSwiftPackageReference section */
+
+/* Begin XCSwiftPackageProductDependency section */
+		51C9C6992EC86E77009925DF /* Then */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 51C9C6982EC86E77009925DF /* XCRemoteSwiftPackageReference "Then" */;
+			productName = Then;
+		};
+		51C9C69C2EC86E7F009925DF /* SnapKit */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 51C9C69B2EC86E7F009925DF /* XCRemoteSwiftPackageReference "SnapKit" */;
+			productName = SnapKit;
+		};
+		51C9C69F2EC86EA4009925DF /* Kingfisher */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 51C9C69E2EC86EA4009925DF /* XCRemoteSwiftPackageReference "Kingfisher" */;
+			productName = Kingfisher;
+		};
+/* End XCSwiftPackageProductDependency section */
 	};
 	rootObject = 51C9C6782EC86E54009925DF /* Project object */;
 }
