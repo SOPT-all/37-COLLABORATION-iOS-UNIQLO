@@ -10,10 +10,12 @@
 		51C9C69A2EC86E77009925DF /* Then in Frameworks */ = {isa = PBXBuildFile; productRef = 51C9C6992EC86E77009925DF /* Then */; };
 		51C9C69D2EC86E7F009925DF /* SnapKit in Frameworks */ = {isa = PBXBuildFile; productRef = 51C9C69C2EC86E7F009925DF /* SnapKit */; };
 		51C9C6A02EC86EA4009925DF /* Kingfisher in Frameworks */ = {isa = PBXBuildFile; productRef = 51C9C69F2EC86EA4009925DF /* Kingfisher */; };
+		AE532C4C2ECA20D700B2ABCA /* .swiftlint.yml in Resources */ = {isa = PBXBuildFile; fileRef = AE532C4B2ECA20D700B2ABCA /* .swiftlint.yml */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
 		51C9C6802EC86E54009925DF /* 37-COLLABORATION-UNIQLO.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "37-COLLABORATION-UNIQLO.app"; sourceTree = BUILT_PRODUCTS_DIR; };
+		AE532C4B2ECA20D700B2ABCA /* .swiftlint.yml */ = {isa = PBXFileReference; lastKnownFileType = text.yaml; path = .swiftlint.yml; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFileSystemSynchronizedBuildFileExceptionSet section */
@@ -54,6 +56,7 @@
 		51C9C6772EC86E54009925DF = {
 			isa = PBXGroup;
 			children = (
+				AE532C4B2ECA20D700B2ABCA /* .swiftlint.yml */,
 				51C9C6822EC86E54009925DF /* 37-COLLABORATION-UNIQLO */,
 				51C9C6812EC86E54009925DF /* Products */,
 			);
@@ -77,6 +80,7 @@
 				51C9C67C2EC86E54009925DF /* Sources */,
 				51C9C67D2EC86E54009925DF /* Frameworks */,
 				51C9C67E2EC86E54009925DF /* Resources */,
+				AE532C122ECA191100B2ABCA /* SwiftLint Script */,
 			);
 			buildRules = (
 			);
@@ -139,10 +143,33 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				AE532C4C2ECA20D700B2ABCA /* .swiftlint.yml in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXResourcesBuildPhase section */
+
+/* Begin PBXShellScriptBuildPhase section */
+		AE532C122ECA191100B2ABCA /* SwiftLint Script */ = {
+			isa = PBXShellScriptBuildPhase;
+			alwaysOutOfDate = 1;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+			);
+			inputPaths = (
+			);
+			name = "SwiftLint Script";
+			outputFileListPaths = (
+			);
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "# Type a script or drag a script file from your workspace to insert its path.\nif [[ \"$(uname -m)\" == arm64 ]]; then\n    export PATH=\"/opt/homebrew/bin:$PATH\"\nfi\n \nif which swiftlint > /dev/null; then\n  swiftlint\nelse\n  echo \"warning: SwiftLint not installed, download from https://github.com/realm/SwiftLint\"\nfi\n";
+		};
+/* End PBXShellScriptBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
 		51C9C67C2EC86E54009925DF /* Sources */ = {
@@ -163,6 +190,7 @@
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_TEAM = CG37U6CMKP;
+				ENABLE_USER_SCRIPT_SANDBOXING = NO;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = "37-COLLABORATION-UNIQLO/Info.plist";
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
@@ -190,6 +218,7 @@
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_TEAM = CG37U6CMKP;
+				ENABLE_USER_SCRIPT_SANDBOXING = NO;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = "37-COLLABORATION-UNIQLO/Info.plist";
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
