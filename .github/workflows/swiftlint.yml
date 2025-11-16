@@ -19,4 +19,4 @@ jobs:
       - name: Run SwiftLint using config file
         uses: norio-nomura/action-swiftlint@3.2.1
         with:
-          args: --config 37-COLABORATION-UNIQLO/.swiftlint.yml
+          args: --config 37-COLLABORATION-UNIQLO/.swiftlint.yml
