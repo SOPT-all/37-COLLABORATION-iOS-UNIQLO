@@ -33,7 +33,6 @@ enum FilterType: String, CaseIterable {
         case .color: return UIImage(named: "drop")
         }
     }
-    
 }
 
 final class FilterButton : UIButton {
@@ -74,8 +73,4 @@ final class FilterButton : UIButton {
         imageEdgeInsets = UIEdgeInsets(top: 0, left: 5, bottom: 0, right: -5)
     }
     
-}
-
-#Preview {
-    FilterButton(type: .popularity)
 }

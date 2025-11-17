@@ -11,11 +11,11 @@ disabled_rules:
     - nesting
     - comment_spacing
     - cyclomatic_complexity
+    - trailing_whitespace
 
 opt_in_rules:
     - function_parameter_count
     - function_body_length
-    - trailing_whitespace
     - empty_count
     - empty_string
     - closure_end_indentation
