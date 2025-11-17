@@ -1,8 +1,17 @@
 {
   "images" : [
     {
-      "filename" : "pensil.svg",
-      "idiom" : "universal"
+      "filename" : "icn_review.png",
+      "idiom" : "universal",
+      "scale" : "1x"
+    },
+    {
+      "idiom" : "universal",
+      "scale" : "2x"
+    },
+    {
+      "idiom" : "universal",
+      "scale" : "3x"
     }
   ],
   "info" : {
