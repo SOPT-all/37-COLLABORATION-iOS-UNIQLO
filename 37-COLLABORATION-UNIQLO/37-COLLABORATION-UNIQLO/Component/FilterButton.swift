@@ -27,10 +27,7 @@ enum FilterType: String {
     var icon: UIImage? {
         switch self {
         case .reset: return UIImage(named: "reset")
-        case .popularity: return UIImage(named: "drop")
-        case .category: return UIImage(named: "drop")
-        case .price: return UIImage(named: "drop")
-        case .color: return UIImage(named: "drop")
+        case .popularity, .category, .price, .color: return UIImage(named: "drop")
         }
     }
 }
