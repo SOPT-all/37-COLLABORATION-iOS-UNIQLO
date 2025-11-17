@@ -7,7 +7,7 @@
 
 import UIKit
 
-enum FilterType: String, CaseIterable {
+enum FilterType: String {
     case reset
     case popularity
     case category
@@ -49,7 +49,6 @@ final class FilterButton : UIButton {
     }
     
     private func configure(){
-        //버튼 스타일 공통
         clipsToBounds = true
         layer.cornerRadius = 15
         layer.borderWidth = 1
@@ -63,13 +62,10 @@ final class FilterButton : UIButton {
         contentEdgeInsets = UIEdgeInsets(top: 6, left: 14, bottom: 6, right: 31)
         imageEdgeInsets = UIEdgeInsets(top: 9, left: 50, bottom: 9, right: 14)
         
-        //아이콘을 오른쪽에 고정
         semanticContentAttribute = .forceRightToLeft
         
-        // 전체 패딩
         contentEdgeInsets = UIEdgeInsets(top: 6, left: 14, bottom: 6, right: 14)
                 
-        // 아이콘과 텍스트 간 간격 조정
         imageEdgeInsets = UIEdgeInsets(top: 0, left: 5, bottom: 0, right: -5)
     }
     
