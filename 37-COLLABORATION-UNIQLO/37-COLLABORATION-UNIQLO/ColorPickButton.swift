@@ -23,7 +23,7 @@ final class ColorPickButton: UIButton {
     override init(frame: CGRect) {
         super.init(frame: frame)
         setStyle()
-        setAction()
+        setAddTarget()
         setUI()
         setLayout()
     }
@@ -41,13 +41,14 @@ extension ColorPickButton {
             $0.layer.borderWidth = 1
             $0.layer.cornerRadius = Constants.cornerSize / 2
         }
+
         colorView.do {
             $0.clipsToBounds = true
             $0.layer.cornerRadius = Constants.innerSize / 2
         }
     }
 
-    private func setAction() {
+    private func setAddTarget() {
         addTarget(self, action: #selector(didTap), for: .touchUpInside)
     }
 
@@ -64,10 +65,12 @@ extension ColorPickButton {
         self.snp.makeConstraints {
             $0.size.equalTo(Constants.cornerSize)
         }
+
         cornerView.snp.makeConstraints {
             $0.center.equalTo(self)
             $0.size.equalToSuperview()
         }
+
         colorView.snp.makeConstraints {
             $0.center.equalTo(self)
             $0.size.equalTo(Constants.innerSize)
@@ -76,8 +79,8 @@ extension ColorPickButton {
 }
 
 extension ColorPickButton {
-    func configure(image: UIImage?) {
-        colorView.image = image
+    func configure(hex: String) {
+        //TODO: colorView의 배경색 바꾸기
     }
 
     func updateStyle(isSelected: Bool) {
