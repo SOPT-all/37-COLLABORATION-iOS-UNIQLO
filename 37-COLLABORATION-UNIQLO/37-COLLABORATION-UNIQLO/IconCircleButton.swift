@@ -1,5 +1,5 @@
 //
-//  IconButtonType.swift
+//  IconCircleButton.swift
 //  37-COLLABORATION-UNIQLO
 //
 //  Created by 이상수 on 11/18/25.
@@ -7,12 +7,14 @@
 
 import UIKit
 
+import SnapKit
+
 enum IconButtonType {
     case hanger
     case up
     case share
     case heart
-    
+
     var icon: UIImage? {
         switch self {
         case .hanger:
@@ -22,7 +24,7 @@ enum IconButtonType {
         case .share:
             return UIImage(named: "share")
         case .heart:
-            return UIImage(named: "heart.default")
+            return UIImage(named: "heart_default")
         }
     }
 
@@ -40,7 +42,7 @@ enum IconButtonType {
     var selectedIcon: UIImage? {
         switch self {
         case .heart:
-            return UIImage(named: "heart.filled")
+            return UIImage(named: "heart_filled")
         default:
             return nil
         }
@@ -48,7 +50,7 @@ enum IconButtonType {
 
     var backgroundColor: UIColor {
         switch self {
-        case .up:
+        case .hanger:
             return .black
         default:
             return .white
@@ -57,38 +59,45 @@ enum IconButtonType {
 }
 
 final class IconCircleButton: UIButton {
-
     private let type: IconButtonType
-    private let iconImage = UIImageView()
 
     init(type: IconButtonType) {
         self.type = type
         super.init(frame: .zero)
         setupImage()
-        setStyle()
-        setStyle()
+        setupActions()
+        setupStyle()
+        setupSize()
     }
 
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
+}
 
+extension IconCircleButton {
     func setupImage() {
         setImage(type.icon, for: .normal)
         if let selectedIcon = type.selectedIcon {
             setImage(selectedIcon, for: .selected)
         }
     }
-    
-    func setStyle() {
-        self.snp.makeConstraints {
-            $0.size.equalTo(type.size)
-        }
-        self.do {
-            $0.backgroundColor = type.backgroundColor
-            $0.layer.cornerRadius = type.size / 2
-            $0.clipsToBounds = true
-        }
+
+    func setupActions() {
+        addTarget(self, action: #selector(buttonDidTap), for: .touchUpInside)
+    }
+
+    @objc func buttonDidTap() {
+        isSelected.toggle()
+    }
+
+    func setupStyle() {
+        backgroundColor = type.backgroundColor
+        layer.cornerRadius = type.size / 2
+        clipsToBounds = true
+    }
+
+    func setupSize() {
+        snp.makeConstraints { $0.size.equalTo(type.size) }
     }
 }
-
