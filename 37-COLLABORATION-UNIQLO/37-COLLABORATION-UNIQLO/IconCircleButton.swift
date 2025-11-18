@@ -64,8 +64,7 @@ final class IconCircleButton: UIButton {
     init(type: IconButtonType) {
         self.type = type
         super.init(frame: .zero)
-        setImage()
-        setAddtarget()
+        setAddTarget()
         setStyle()
         setLayout()
     }
@@ -76,11 +75,7 @@ final class IconCircleButton: UIButton {
 }
 
 extension IconCircleButton {
-    private func setImage() {
-        
-    }
-
-    private func setAddtarget() {
+    private func setAddTarget() {
         addTarget(self, action: #selector(buttonDidTap), for: .touchUpInside)
     }
 
