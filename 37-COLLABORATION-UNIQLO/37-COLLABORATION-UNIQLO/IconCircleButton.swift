@@ -18,13 +18,13 @@ enum IconButtonType {
     var icon: UIImage? {
         switch self {
         case .hanger:
-            return UIImage(named: "hanger")
+            return .hanger
         case .up:
-            return UIImage(named: "up")
+            return .up
         case .share:
-            return UIImage(named: "share")
+            return .share
         case .heart:
-            return UIImage(named: "heart_default")
+            return .heartDefault
         }
     }
 
@@ -64,10 +64,10 @@ final class IconCircleButton: UIButton {
     init(type: IconButtonType) {
         self.type = type
         super.init(frame: .zero)
-        setupImage()
-        setupActions()
-        setupStyle()
-        setupSize()
+        setImage()
+        setAddtarget()
+        setStyle()
+        setLayout()
     }
 
     required init?(coder: NSCoder) {
@@ -76,14 +76,11 @@ final class IconCircleButton: UIButton {
 }
 
 extension IconCircleButton {
-    func setupImage() {
-        setImage(type.icon, for: .normal)
-        if let selectedIcon = type.selectedIcon {
-            setImage(selectedIcon, for: .selected)
-        }
+    private func setImage() {
+        
     }
 
-    func setupActions() {
+    private func setAddtarget() {
         addTarget(self, action: #selector(buttonDidTap), for: .touchUpInside)
     }
 
@@ -91,13 +88,19 @@ extension IconCircleButton {
         isSelected.toggle()
     }
 
-    func setupStyle() {
-        backgroundColor = type.backgroundColor
-        layer.cornerRadius = type.size / 2
-        clipsToBounds = true
+    private func setStyle() {
+        self.do {
+            $0.backgroundColor = type.backgroundColor
+            $0.layer.cornerRadius = type.size / 2
+            $0.clipsToBounds = true
+            $0.setImage(type.icon, for: .normal)
+            if let selectedIcon = type.selectedIcon {
+                $0.setImage(selectedIcon, for: .selected)
+            }
+        }
     }
 
-    func setupSize() {
+    private func setLayout() {
         snp.makeConstraints { $0.size.equalTo(type.size) }
     }
 }
