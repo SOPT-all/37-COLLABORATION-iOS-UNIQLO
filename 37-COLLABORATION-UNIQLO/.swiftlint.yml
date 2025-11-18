@@ -1,7 +1,5 @@
 disabled_rules:
-
     # 비활성화하고 싶은 규칙
-    
     - identifier_name
     - line_length
     - type_name
