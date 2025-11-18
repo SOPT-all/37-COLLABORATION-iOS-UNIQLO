@@ -54,10 +54,6 @@ final class CustomTabBarView: BaseView {
             $0.height.equalTo(38)
         }
     }
-
-    override func layoutSubviews() {
-        print(self.frame)
-    }
     
     private func makeTabBarItem(image: UIImage, title: String) -> TabBarItemView {
         let image = UIImageView(image: image)
