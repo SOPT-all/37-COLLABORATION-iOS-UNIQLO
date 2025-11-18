@@ -19,11 +19,6 @@ final class CategoryTabBarView: UIView {
         collectionView.showsHorizontalScrollIndicator = false
         collectionView.backgroundColor = .white
         
-        collectionView.delegate = self
-        collectionView.dataSource = self
-        collectionView.register(CategoryTabCell.self,forCellWithReuseIdentifier: CategoryTabCell.identifier
-        )
-        
         return collectionView
     }()
     
@@ -31,6 +26,7 @@ final class CategoryTabBarView: UIView {
         super.init(frame: frame)
         setUI()
         setLayout()
+        setDelegate()
         selectInitialTab()
     }
     
@@ -47,6 +43,12 @@ final class CategoryTabBarView: UIView {
             $0.edges.equalToSuperview()
             $0.height.equalTo(46)
         }
+    }
+    
+    private func setDelegate(){
+        collectionView.delegate = self
+        collectionView.dataSource = self
+        collectionView.register(CategoryTabCell.self, forCellWithReuseIdentifier: CategoryTabCell.identifier)
     }
     
     private func selectInitialTab() {
@@ -88,6 +90,3 @@ extension CategoryTabBarView: UICollectionViewDelegateFlowLayout {
         return CGSize(width: width, height: 46)
     }
 }
-
-
-
