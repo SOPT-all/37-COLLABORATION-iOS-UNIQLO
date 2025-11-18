@@ -89,9 +89,5 @@ extension CategoryTabBarView: UICollectionViewDelegateFlowLayout {
     }
 }
 
-#Preview {
-    CategoryTabBarView()
-}
-
 
 
