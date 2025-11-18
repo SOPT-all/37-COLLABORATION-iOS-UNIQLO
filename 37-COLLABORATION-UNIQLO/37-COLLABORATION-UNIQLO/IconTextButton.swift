@@ -11,38 +11,38 @@ import SnapKit
 import Then
 
 final class IconTextButton: UIButton {
-    private let iconImage = UIImageView().then {
-        $0.contentMode = .scaleAspectFit
-    }
+    private let iconImage = UIImageView()
+    private let textLabel = UILabel()
 
-    private let textLabel = UILabel().then {
-        $0.textColor = .black
-        $0.font = .pretendard(.captionR12)
-    }
-
-    override init(frame: CGRect) {
-        super.init(frame: frame)
+    init(icon: UIImage?, text: String) {
+        super.init(frame: .zero)
         setStyle()
         setUI()
         setLayout()
+        iconImage.image = icon
+        textLabel.text = text
     }
 
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
 
-    func configure(icon: UIImage?, text: String) {
-        iconImage.image = icon
-        textLabel.text = text
-    }
-}
-
-extension IconTextButton {
     private func setStyle() {
-        self.backgroundColor = .white
-        self.layer.borderColor = UIColor.gray200.cgColor
-        self.layer.borderWidth = 1
-        self.layer.cornerRadius = 17
+        self.do {
+            $0.backgroundColor = .white
+            $0.layer.borderColor = UIColor.gray200.cgColor
+            $0.layer.borderWidth = 1
+            $0.layer.cornerRadius = 17
+        }
+
+        iconImage.do {
+            $0.contentMode = .scaleAspectFit
+        }
+
+        textLabel.do {
+            $0.textColor = .black
+            $0.font = .pretendard(.captionR12)
+        }
     }
 
     private func setUI() {
