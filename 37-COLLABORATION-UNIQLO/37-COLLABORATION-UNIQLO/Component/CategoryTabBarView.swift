@@ -1,5 +1,5 @@
 //
-//  CategoryTabBarViewController.swift
+//  CategoryTabBarView.swift
 //  37-COLLABORATION-UNIQLO
 //
 //  Created by 정윤아 on 11/18/25.
@@ -7,7 +7,7 @@
 import UIKit
 import SnapKit
 
-final class CategoryTabBarViewController: UIViewController {
+final class CategoryTabBarView: UIView {
     
     private let tabs = CategoryTab.allCases
     
@@ -21,47 +21,44 @@ final class CategoryTabBarViewController: UIViewController {
         
         collectionView.delegate = self
         collectionView.dataSource = self
-        collectionView.register(
-            CategoryTabCell.self,
-            forCellWithReuseIdentifier: CategoryTabCell.identifier
+        collectionView.register(CategoryTabCell.self,forCellWithReuseIdentifier: CategoryTabCell.identifier
         )
         
         return collectionView
     }()
     
-    override func viewDidLoad() {
-        super.viewDidLoad()
-        
+    override init(frame: CGRect) {
+        super.init(frame: frame)
         setUI()
         setLayout()
         selectInitialTab()
     }
     
+    required init?(coder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
+    
     private func setUI() {
-        view.backgroundColor = .white
-        view.addSubview(collectionView)
+        addSubview(collectionView)
     }
     
     private func setLayout() {
         collectionView.snp.makeConstraints {
-            $0.top.equalTo(view.safeAreaLayoutGuide)
-            $0.horizontalEdges.equalToSuperview()
+            $0.edges.equalToSuperview()
             $0.height.equalTo(46)
         }
-        
     }
-}
-
-private extension CategoryTabBarViewController {
-    func selectInitialTab() {
+    
+    private func selectInitialTab() {
         DispatchQueue.main.async {
             let indexPath = IndexPath(item: 2, section: 0)
             self.collectionView.selectItem(at: indexPath, animated: false, scrollPosition: [])
         }
     }
+    
 }
 
-extension CategoryTabBarViewController: UICollectionViewDataSource {
+extension CategoryTabBarView: UICollectionViewDataSource {
     func collectionView(_ collectionView: UICollectionView,
                         numberOfItemsInSection section: Int) -> Int {
         return tabs.count
@@ -71,7 +68,7 @@ extension CategoryTabBarViewController: UICollectionViewDataSource {
                         cellForItemAt indexPath: IndexPath)
     -> UICollectionViewCell {
         
-        guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: CategoryTabCell.identifier,for: indexPath) as? CategoryTabCell else {
+        guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: CategoryTabCell.identifier, for: indexPath) as? CategoryTabCell else {
             return UICollectionViewCell()
         }
         
@@ -80,7 +77,7 @@ extension CategoryTabBarViewController: UICollectionViewDataSource {
     }
 }
 
-extension CategoryTabBarViewController: UICollectionViewDelegateFlowLayout {
+extension CategoryTabBarView: UICollectionViewDelegateFlowLayout {
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
         let tab = tabs[indexPath.item]
         let text = tab.categoryName as NSString
@@ -90,6 +87,10 @@ extension CategoryTabBarViewController: UICollectionViewDelegateFlowLayout {
         let width = textSize.width + 40
         return CGSize(width: width, height: 46)
     }
+}
+
+#Preview {
+    CategoryTabBarView()
 }
 
 
