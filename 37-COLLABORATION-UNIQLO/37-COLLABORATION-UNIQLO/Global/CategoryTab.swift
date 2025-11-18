@@ -49,8 +49,8 @@ final class CategoryTabCell: UICollectionViewCell {
     
     override init(frame: CGRect) {
         super.init(frame: frame)
-        setupUI()
-        setupLayout()
+        setUI()
+        setLayout()
     }
     
     required init?(coder: NSCoder) {
@@ -59,12 +59,12 @@ final class CategoryTabCell: UICollectionViewCell {
     
     // MARK: - Layout
     
-    private func setupUI() {
+    private func setUI() {
         contentView.addSubview(nameLabel)
         contentView.addSubview(underlineView)
     }
     
-    private func setupLayout() {
+    private func setLayout() {
         nameLabel.snp.makeConstraints {
             $0.top.equalToSuperview().inset(14)
             $0.horizontalEdges.equalToSuperview()
