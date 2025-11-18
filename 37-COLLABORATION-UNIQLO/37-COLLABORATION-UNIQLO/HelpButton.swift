@@ -17,7 +17,7 @@ final class HelpButton: UIButton {
     override init(frame: CGRect) {
         super.init(frame: frame)
         setStyle()
-        setAction()
+        setAddTarget()
         setUI()
         setLayout()
     }
@@ -33,6 +33,7 @@ extension HelpButton {
             $0.backgroundColor = .white
             $0.layer.cornerRadius = 17
         }
+
         textLabel.do {
             $0.text = "도움돼요 \(count)"
             $0.textColor = .black
@@ -40,7 +41,7 @@ extension HelpButton {
         }
     }
 
-    private func setAction() {
+    private func setAddTarget() {
         addTarget(self, action: #selector(buttonDidTap), for: .touchUpInside)
     }
 
