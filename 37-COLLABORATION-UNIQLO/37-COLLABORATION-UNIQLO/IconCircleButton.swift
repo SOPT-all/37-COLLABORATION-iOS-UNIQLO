@@ -42,7 +42,7 @@ enum IconButtonType {
     var selectedIcon: UIImage? {
         switch self {
         case .heart:
-            return UIImage(named: "heart_filled")
+            return .heartFilled
         default:
             return nil
         }
