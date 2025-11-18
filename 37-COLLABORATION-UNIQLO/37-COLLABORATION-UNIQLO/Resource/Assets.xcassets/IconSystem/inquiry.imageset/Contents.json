@@ -1,6 +1,7 @@
 {
   "images" : [
     {
+      "filename" : "icn_inquriy.png",
       "idiom" : "universal",
       "scale" : "1x"
     },
@@ -9,7 +10,6 @@
       "scale" : "2x"
     },
     {
-      "filename" : "icn_report@3x.png",
       "idiom" : "universal",
       "scale" : "3x"
     }
