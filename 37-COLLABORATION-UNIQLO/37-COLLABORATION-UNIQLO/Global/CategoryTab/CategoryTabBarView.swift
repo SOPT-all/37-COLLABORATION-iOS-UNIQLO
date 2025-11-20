@@ -5,15 +5,43 @@
 //  Created by 정윤아 on 11/18/25.
 //
 import UIKit
+
 import SnapKit
 
-final class CategoryTabBarView: UIView {
+enum CategoryTab: String, CaseIterable {
+    case categoryView
+    case productView
     
-    private let tabs = CategoryTab.allCases
+    var categoryName: [String] {
+        switch self {
+        case .categoryView:
+            return ["WOMEN", "MEN", "KIDS", "BABY"]
+        case .productView:
+            return ["경량 패딩(PUFFTECH)", "파카&블루종&후리스", "재킷&블레이저", "코트", "다운&패딩"]
+        }
+    }
     
+    var startIndex: Int {
+        switch self {
+        case .categoryView:
+            return 0
+        case .productView:
+            return 2
+        }
+    }
+}
+
+final class CategoryTabBarView: BaseView {
+    
+    private let categoryTabType: CategoryTab
+    private lazy var tabs = categoryTabType.categoryName
+    private lazy var selectedIndex: Int = categoryTabType.startIndex
+
     private lazy var collectionView: UICollectionView = {
         let layout = UICollectionViewFlowLayout()
         layout.scrollDirection = .horizontal
+        layout.minimumInteritemSpacing = 0
+        layout.minimumLineSpacing = 0
         
         let collectionView = UICollectionView(frame: .zero, collectionViewLayout: layout)
         collectionView.showsHorizontalScrollIndicator = false
@@ -22,42 +50,34 @@ final class CategoryTabBarView: UIView {
         return collectionView
     }()
     
-    override init(frame: CGRect) {
-        super.init(frame: frame)
+    init(tabType: CategoryTab) {
+        self.categoryTabType = tabType
+        super.init(frame: .zero)
         setUI()
         setLayout()
         setDelegate()
-        selectInitialTab()
     }
     
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
     
-    private func setUI() {
+    override func setUI() {
         addSubview(collectionView)
     }
     
-    private func setLayout() {
+    override func setLayout() {
         collectionView.snp.makeConstraints {
             $0.edges.equalToSuperview()
             $0.height.equalTo(46)
         }
     }
-    
-    private func setDelegate(){
+
+    private func setDelegate() {
         collectionView.delegate = self
         collectionView.dataSource = self
         collectionView.register(CategoryTabCell.self, forCellWithReuseIdentifier: CategoryTabCell.identifier)
     }
-    
-    private func selectInitialTab() {
-        DispatchQueue.main.async {
-            let indexPath = IndexPath(item: 2, section: 0)
-            self.collectionView.selectItem(at: indexPath, animated: false, scrollPosition: [])
-        }
-    }
-    
 }
 
 extension CategoryTabBarView: UICollectionViewDataSource {
@@ -74,19 +94,32 @@ extension CategoryTabBarView: UICollectionViewDataSource {
             return UICollectionViewCell()
         }
         
-        cell.configure(with: tabs[indexPath.item])
+        let tabText = tabs[indexPath.row]
+        cell.configure(with: tabText, isSelected: indexPath.item == selectedIndex)
         return cell
     }
 }
 
+extension CategoryTabBarView: UICollectionViewDelegate {
+    func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
+        selectedIndex = indexPath.item
+        collectionView.reloadData()
+        collectionView.layoutIfNeeded()
+    }
+}
+
 extension CategoryTabBarView: UICollectionViewDelegateFlowLayout {
-    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
+    func collectionView(
+        _ collectionView: UICollectionView,
+        layout collectionViewLayout: UICollectionViewLayout,
+        sizeForItemAt indexPath: IndexPath) -> CGSize {
         let tab = tabs[indexPath.item]
-        let text = tab.categoryName as NSString
+        let text = tab as NSString
         let font = UIFont.reddit(.captionM12)
         
         let textSize = text.size(withAttributes: [.font: font])
-        let width = textSize.width + 40
-        return CGSize(width: width, height: 46)
+        let collectionViewWidth = self.frame.width
+        let cellWidth = categoryTabType == .categoryView ? collectionViewWidth / CGFloat(tabs.count) : textSize.width + 40
+        return CGSize(width: cellWidth, height: 46)
     }
 }
