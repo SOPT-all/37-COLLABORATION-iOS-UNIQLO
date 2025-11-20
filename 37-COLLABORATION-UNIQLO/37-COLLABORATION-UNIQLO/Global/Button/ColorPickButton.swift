@@ -80,7 +80,7 @@ extension ColorPickButton {
 
 extension ColorPickButton {
     func configure(hex: String) {
-        //TODO: colorView의 배경색 바꾸기
+                colorView.backgroundColor = UIColor(hexString: hex) ?? .lightGray
     }
 
     func updateStyle(isSelected: Bool) {
