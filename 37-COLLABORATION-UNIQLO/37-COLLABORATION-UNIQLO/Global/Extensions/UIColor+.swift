@@ -2,21 +2,26 @@
 //  UIColor+.swift
 //  37-COLLABORATION-UNIQLO
 //
-//  Created by 이상수 on 11/22/25.
+//  Created by 정윤아 on 11/20/25.
 //
-
 import UIKit
 
 extension UIColor {
-    convenience init?(hex: String) {
-        var s = hex.trimmingCharacters(in: .whitespacesAndNewlines).uppercased()
-        if s.hasPrefix("#") { s.removeFirst() }
-        guard s.count == 6 else { return nil }
-        var rgb: UInt64 = 0
-        Scanner(string: s).scanHexInt64(&rgb)
-        let r = CGFloat((rgb & 0xFF0000) >> 16) / 255
-        let g = CGFloat((rgb & 0x00FF00) >> 8) / 255
-        let b = CGFloat(rgb & 0x0000FF) / 255
-        self.init(red: r, green: g, blue: b, alpha: 1)
+    convenience init?(hexString: String) {
+        var string = hexString.replacingOccurrences(of: "#", with: "")
+        
+        if string.count == 3 {
+            // #FFF -> #FFFFFF
+            string = string.map { "\($0)\($0)" }.joined()
+        }
+        
+        guard string.count == 6,
+              let hex = Int(string, radix: 16) else { return nil }
+        
+        let r = CGFloat((hex >> 16) & 0xFF) / 255.0
+        let g = CGFloat((hex >> 8) & 0xFF) / 255.0
+        let b = CGFloat(hex & 0xFF) / 255.0
+        
+        self.init(red: r, green: g, blue: b, alpha: 1.0)
     }
 }
