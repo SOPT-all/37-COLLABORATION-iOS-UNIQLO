@@ -75,7 +75,6 @@ final class CategoryTabCell: UICollectionViewCell {
     }
     
     private func updateUI() {
-        print("실행")
         nameLabel.textColor = isTabSelected ? .black : .gray400
         underlineView.isHidden = !isTabSelected
     }
