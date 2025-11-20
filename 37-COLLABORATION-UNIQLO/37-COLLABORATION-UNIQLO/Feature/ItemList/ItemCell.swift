@@ -1,0 +1,318 @@
+//
+//  ItemCell.swift
+//  37-COLLABORATION-UNIQLO
+//
+//  Created by 정윤아 on 11/20/25.
+//
+
+import UIKit
+import SnapKit
+import Then
+
+final class ItemCell: UICollectionViewCell {
+    
+    static let identifier: String = "ItemCell"
+    private var colorButtons: [ColorPickButton] = []
+    
+    // MARK: - UI
+    
+    private let itemImage = UIImageView()
+    private let colorChipStackView = UIStackView()
+    private let genderSizeLabel = UILabel()
+    private let itemNameLabel = UILabel()
+    private let originalPriceLabel = UILabel()
+    private let salePriceLabel = UILabel()
+    private lazy var priceStackView = UIStackView(arrangedSubviews: [originalPriceLabel, salePriceLabel])
+    private let tagLabel = UILabel()
+    private let starImageView = UIImageView(image: UIImage(named: "star_filled"))
+    private let ratingLabel = UILabel()
+    private let reviewCountLabel = UILabel()
+    private lazy var ratingStackView = UIStackView(arrangedSubviews: [starImageView, ratingLabel, reviewCountLabel])
+    private let likeButton = UIButton()
+    private lazy var infoStackView = UIStackView(arrangedSubviews: [colorChipStackView, genderSizeLabel, itemNameLabel, priceStackView, tagLabel, ratingStackView])
+    private let bottomWhiteView = UIView()
+    
+    // MARK: - Init
+    
+    override init(frame: CGRect) {
+        super.init(frame: frame)
+        setUI()
+        setLayout()
+        setStyle()
+    }
+    
+    required init?(coder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
+    
+    private func setUI() {
+        contentView.backgroundColor = .white
+        
+        contentView.addSubview(itemImage)
+        contentView.addSubview(bottomWhiteView)
+        
+        bottomWhiteView.addSubview(infoStackView)
+        bottomWhiteView.addSubview(likeButton)
+    }
+    
+    private func setStyle() {
+        itemImage.do {
+            $0.contentMode = .scaleAspectFill
+            $0.clipsToBounds = true
+        }
+        
+        colorChipStackView.do {
+            $0.axis = .horizontal
+            $0.spacing = 2
+            $0.alignment = .center
+            $0.distribution = .fill
+        }
+        
+        genderSizeLabel.do {
+            $0.font = .pretendard(.captionL12)
+            $0.textColor = .gray300
+        }
+        
+        itemNameLabel.do {
+            $0.font = .pretendard(.captionL12)
+            $0.textColor = .gray900
+        }
+        
+        originalPriceLabel.do {
+            $0.font = .pretendard(.titleL16)
+            $0.textColor = .gray900
+        }
+        
+        salePriceLabel.do {
+            $0.font = .pretendard(.titleM18)
+            $0.textColor = .redBrand
+        }
+        
+        priceStackView.do {
+            $0.axis = .horizontal
+            $0.spacing = 6
+            $0.alignment = .firstBaseline
+            $0.distribution = .fill
+        }
+        
+        tagLabel.do {
+            $0.font = .pretendard(.captionL11)
+            $0.textColor = .gray600
+        }
+        
+        starImageView.do {
+            $0.snp.makeConstraints {
+                $0.height.width.equalTo(20)
+            }
+        }
+        
+        ratingLabel.do {
+            $0.font = .pretendard(.captionL11)
+            $0.textColor = .black
+        }
+        
+        reviewCountLabel.do {
+            $0.font = .pretendard(.captionR9)
+            $0.textColor = .gray600
+        }
+        
+        ratingStackView.do {
+            $0.axis = .horizontal
+            $0.spacing = 2
+            $0.alignment = .center
+            $0.distribution = .fill
+        }
+        
+        likeButton.do {
+            $0.setImage(UIImage(named: "heart_filled"), for: .selected)
+            $0.setImage(UIImage(named: "heart_default"), for: .normal)
+            $0.addTarget(self, action: #selector(didTapLikeButton), for: .touchUpInside)
+        }
+        
+        infoStackView.do {
+            $0.axis = .vertical
+            $0.alignment = .leading
+        }
+        bottomWhiteView.do {
+            $0.backgroundColor = .white
+        }
+    }
+    
+    private func setLayout() {
+        itemImage.snp.makeConstraints {
+            $0.top.leading.trailing.equalToSuperview()
+            $0.height.equalTo(252)
+        }
+        
+        bottomWhiteView.snp.makeConstraints {
+            $0.top.equalTo(itemImage.snp.bottom)
+            $0.leading.trailing.bottom.equalToSuperview()
+        }
+        
+        infoStackView.snp.makeConstraints {
+            $0.horizontalEdges.equalToSuperview().inset(10)
+        }
+        
+        ratingLabel.snp.makeConstraints {
+            $0.width.equalTo(17)
+        }
+        
+        likeButton.snp.makeConstraints {
+            $0.top.trailing.equalToSuperview().inset(10)
+        }
+        
+        infoStackView.setCustomSpacing(10, after: colorChipStackView)
+        infoStackView.setCustomSpacing(4, after: genderSizeLabel)
+        infoStackView.setCustomSpacing(4, after: itemNameLabel)
+        infoStackView.setCustomSpacing(0, after: priceStackView)
+        infoStackView.setCustomSpacing(4, after: tagLabel)
+        
+        ratingStackView.setCustomSpacing(4, after: starImageView)
+        ratingStackView.setCustomSpacing(3, after: ratingLabel)
+    }
+    
+    @objc
+    private func didTapLikeButton() {
+        likeButton.isSelected.toggle()
+    }
+    
+    override func prepareForReuse() {
+        super.prepareForReuse()
+        
+        colorButtons.removeAll()
+        
+        colorChipStackView.arrangedSubviews.forEach {
+            colorChipStackView.removeArrangedSubview($0)
+            $0.removeFromSuperview()
+        }
+        
+        likeButton.isSelected = false
+    }
+    
+    func configure(with item: Item) {
+        itemImage.image = UIImage(named: item.imageUrl)
+        
+        if item.colors.isEmpty {
+            colorChipStackView.isHidden = true
+        } else {
+            colorChipStackView.isHidden = false
+            item.colors.forEach { hex in
+                let chip = ColorPickButton()
+                chip.delegate = self
+                chip.configure(hex: hex)
+                chip.updateStyle(isSelected: false)
+                colorButtons.append(chip)
+                colorChipStackView.addArrangedSubview(chip)
+            }
+        }
+        
+        if let first = colorButtons.first {
+            first.updateStyle(isSelected: true)
+        }
+        
+        genderSizeLabel.text = "\(item.gender), \(item.size)"
+        
+        itemNameLabel.text = item.itemName
+        
+        configurePrice(original: item.originalPrice, sale: item.salePrice)
+        
+        if let tag = item.tagText, !tag.trimmingCharacters(in: .whitespaces).isEmpty {
+            tagLabel.isHidden = false
+            tagLabel.text = item.tagText
+        } else {
+            tagLabel.isHidden = true
+        }
+        
+        ratingLabel.text = String(format: "%.1f", item.rating)
+        reviewCountLabel.text = "(\(item.reviewCount))"
+    }
+    
+    private func configurePrice(original: Int, sale: Int?) {
+        
+        let formatter = NumberFormatter()
+        formatter.numberStyle = .decimal
+        
+        let originalString = formatter.string(from: NSNumber(value: original)) ?? "\(original)"
+        
+        if let sale = sale, sale < original {
+            
+            let original = NSAttributedString(
+                string: "\(originalString)원",
+                attributes: [
+                    .strikethroughStyle: NSUnderlineStyle.single.rawValue,
+                    .foregroundColor: UIColor.gray400
+                ]
+            )
+            originalPriceLabel.attributedText = original
+            originalPriceLabel.isHidden = false
+            
+            let saleString = formatter.string(from: NSNumber(value: sale)) ?? "\(sale)"
+            salePriceLabel.text = "\(saleString)원"
+            salePriceLabel.textColor = .redBrand
+            salePriceLabel.isHidden = false
+            
+        } else {
+            
+            originalPriceLabel.attributedText = nil
+            originalPriceLabel.text = "\(originalString)원"
+            originalPriceLabel.textColor = .gray900
+            originalPriceLabel.isHidden = false
+            
+            salePriceLabel.isHidden = true
+        }
+    }
+}
+
+extension ItemCell: ColorPickButtonDelegate {
+    func colorPickButtonDidTap(_ button: ColorPickButton) {
+        colorButtons.forEach { $0.updateStyle(isSelected: false)}
+        button.updateStyle(isSelected: true)
+    }
+}
+
+#if DEBUG && canImport(SwiftUI)
+import SwiftUI
+
+struct ItemCellPreview: UIViewRepresentable {
+    
+    func makeUIView(context: Context) -> UIView {
+        let view = UIView(frame: .init(x: 0, y: 0, width: 200, height: 350))
+        view.backgroundColor = .white
+        
+        // ⭐️ 셀 인스턴스
+        let cell = ItemCell(frame: .init(x: 0, y: 0, width: 200, height: 350))
+        
+        // ⭐️ 목데이터 하나 연결
+        let mock = Item(
+            imageUrl: "outer1",
+            colors: ["#2F2F2F", "#B5B5B5"],
+            gender: "WOMEN",
+            size: "XS~XL",
+            itemName: "더블브레스트 테일러드 재킷",
+            originalPrice: 89900,
+            salePrice: 79900,
+            tagText: "온라인단독",
+            rating: 4.8,
+            reviewCount: 20
+        )
+        
+        cell.configure(with: mock)
+        
+        view.addSubview(cell)
+        cell.snp.makeConstraints {
+            $0.edges.equalToSuperview()
+        }
+        
+        return view
+    }
+    
+    func updateUIView(_ uiView: UIView, context: Context) {}
+}
+
+#Preview {
+    ItemCellPreview()
+        .previewLayout(.sizeThatFits)
+}
+#endif
+
+
