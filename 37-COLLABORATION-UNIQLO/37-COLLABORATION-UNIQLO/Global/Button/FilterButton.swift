@@ -16,11 +16,16 @@ enum FilterType: String {
     
     var title: String {
         switch self {
-            case .reset: return "초기화"
-            case .popularity: return "인기순"
-            case .category: return "카테고리"
-            case .price: return "가격"
-            case .color: return "색상"
+        case .reset:
+        return "초기화"
+        case .popularity:
+        return "인기순"
+        case .category:
+        return "카테고리"
+        case .price:
+        return "가격"
+        case .color:
+        return "색상"
         }
     }
     
@@ -32,10 +37,10 @@ enum FilterType: String {
     }
 }
 
-final class FilterButton : UIButton {
+final class FilterButton: UIButton {
     private let type: FilterType
     
-    init(type: FilterType){
+    init(type: FilterType) {
         self.type = type
         super.init(frame: .zero)
         configure()
@@ -45,7 +50,7 @@ final class FilterButton : UIButton {
         fatalError("init(coder:) has not been implemented")
     }
     
-    private func configure(){
+    private func configure() {
         clipsToBounds = true
         layer.cornerRadius = 15
         layer.borderWidth = 1
