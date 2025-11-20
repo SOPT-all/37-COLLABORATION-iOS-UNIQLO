@@ -16,6 +16,7 @@ enum FilterType: String {
     
     var title: String {
         switch self {
+            case .reset: 
         case .reset:
         return "초기화"
         case .popularity:
