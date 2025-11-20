@@ -10,7 +10,7 @@ import UIKit
 final class CategoryView: BaseView {
     
     private let topNavigationBar = TopNavigationBar()
-    private(set) var categoryTab = CategoryTabBarView(tabType: .categoryView)
+    private let categoryTab = CategoryTabBarView(tabType: .categoryView)
     
     override func setUI() {
         addSubviews(topNavigationBar, categoryTab)
