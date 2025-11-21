@@ -10,7 +10,6 @@ import SnapKit
 import Then
 
 final class CategoryTabCell: UICollectionViewCell {
-    static let identifier: String = "CategoryTabCell"
     
     // MARK: - UI
     
