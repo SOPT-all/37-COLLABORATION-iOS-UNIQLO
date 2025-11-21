@@ -12,7 +12,6 @@ import Then
 final class ItemCell: UICollectionViewCell {
     
     static let identifier: String = "ItemCell"
-    private var colorButtons: [ColorPickButton] = []
     
     // MARK: - UI
     
@@ -64,7 +63,7 @@ final class ItemCell: UICollectionViewCell {
         
         colorChipStackView.do {
             $0.axis = .horizontal
-            $0.spacing = 2
+            $0.spacing = 6
             $0.alignment = .center
             $0.distribution = .fill
         }
@@ -202,10 +201,6 @@ final class ItemCell: UICollectionViewCell {
                     colorChipStackView.addArrangedSubview(chip)
                 }
             }
-        }
-        
-        if let first = colorButtons.first {
-            first.updateStyle(isSelected: true)
         }
         
         genderSizeLabel.text = "\(item.gender), \(item.size)"
