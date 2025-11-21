@@ -16,7 +16,7 @@ enum FilterType: String {
     
     var title: String {
         switch self {
-            case .reset: 
+
         case .reset:
         return "초기화"
         case .popularity:
@@ -27,6 +27,7 @@ enum FilterType: String {
         return "가격"
         case .color:
         return "색상"
+
         }
     }
     
@@ -40,6 +41,7 @@ enum FilterType: String {
 
 final class FilterButton: UIButton {
     private let type: FilterType
+    private let gap: CGFloat = 4
     
     init(type: FilterType) {
         self.type = type
@@ -53,7 +55,7 @@ final class FilterButton: UIButton {
     
     private func configure() {
         clipsToBounds = true
-        layer.cornerRadius = 15
+        layer.cornerRadius = 16
         layer.borderWidth = 1
         layer.borderColor = UIColor(named: "gray300")?.cgColor
         
@@ -62,14 +64,18 @@ final class FilterButton: UIButton {
         titleLabel?.font = UIFont(name: "Pretendard-Medium", size: 12)
         setImage(type.icon, for: .normal)
         
-        contentEdgeInsets = UIEdgeInsets(top: 6, left: 14, bottom: 6, right: 31)
-        imageEdgeInsets = UIEdgeInsets(top: 9, left: 50, bottom: 9, right: 14)
-        
+        contentEdgeInsets = UIEdgeInsets(top: 6, left: 14, bottom: 6, right: 14)
+
+        // 이미지 오른쪽 → forceRightToLeft 덕분에 텍스트 오른쪽 배치됨
         semanticContentAttribute = .forceRightToLeft
         
-        contentEdgeInsets = UIEdgeInsets(top: 6, left: 14, bottom: 6, right: 14)
-                
-        imageEdgeInsets = UIEdgeInsets(top: 0, left: 5, bottom: 0, right: -5)
+        // 텍스트와 이미지 간 간격 조절
+        titleEdgeInsets = UIEdgeInsets(
+            top: 0, left: -gap, bottom: 0, right: gap
+        )
+        imageEdgeInsets = UIEdgeInsets(
+            top: 0, left: gap, bottom: 0, right: -gap
+        )
     }
     
 }
