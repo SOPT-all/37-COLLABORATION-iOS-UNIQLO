@@ -46,8 +46,8 @@ final class CategoryView: BaseView {
         
         categoryCollectionView.snp.makeConstraints {
             $0.top.equalTo(categoryTab.snp.bottom)
-            $0.leading.equalTo(sideTableView.snp.trailing)
-            $0.trailing.equalToSuperview()
+            $0.leading.equalTo(sideTableView.snp.trailing).offset(16)
+            $0.trailing.equalToSuperview().inset(16)
             $0.bottom.equalToSuperview()
         }
     }
