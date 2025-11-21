@@ -18,15 +18,113 @@ struct Item {
     let reviewCount: Int
 }
 
-let mockItem = Item(
-    imageUrl: "outer1",              // Assets에 있는 이미지 이름
-    colors: ["#2F2F2F", "#B5B5B5"],            // 검정/실버 칩
-    gender: "WOMEN",
-    size: "XS~XL",
-    itemName: "더블브레스트 테일러드 재킷",
-    originalPrice: 89900,
-    salePrice: 79900,                           // 할인 O
-    tagText: "온라인단독",                      // nil이면 표시 안 됨
-    rating: 4.8,
-    reviewCount: 21
-)
+let mockItems: [Item] = [
+    .init(
+        imageUrl: "outer1",
+        colors: ["#2F2F2F", "#B5B5B5"],
+        gender: "WOMEN",
+        size: "XS~XL",
+        itemName: "더블브레스트 테일러드 재킷",
+        originalPrice: 89900,
+        salePrice: 79900,
+        tagText: "온라인단독",
+        rating: 4.8,
+        reviewCount: 21
+    ),
+    .init(
+        imageUrl: "outer2",
+        colors: ["#1A1A1A", "#DDDDDD"],
+        gender: "MEN",
+        size: "S~XL",
+        itemName: "경량 패딩 자켓",
+        originalPrice: 59900,
+        salePrice: nil,
+        tagText: nil,
+        rating: 4.5,
+        reviewCount: 132
+    ),
+    .init(
+        imageUrl: "outer3",
+        colors: ["#3A3A3A"],
+        gender: "WOMEN",
+        size: "XS~L",
+        itemName: "코지 후리스 집업",
+        originalPrice: 39900,
+        salePrice: 29900,
+        tagText: "한정특가",
+        rating: 4.7,
+        reviewCount: 89
+    ),
+    .init(
+        imageUrl: "outer1",
+        colors: ["#2F2F2F", "#B5B5B5"],
+        gender: "WOMEN",
+        size: "XS~XL",
+        itemName: "더블브레스트 테일러드 재킷",
+        originalPrice: 89900,
+        salePrice: 79900,
+        tagText: "온라인단독",
+        rating: 4.8,
+        reviewCount: 21
+    ),
+    .init(
+        imageUrl: "outer2",
+        colors: ["#1A1A1A", "#DDDDDD"],
+        gender: "MEN",
+        size: "S~XL",
+        itemName: "경량 패딩 자켓",
+        originalPrice: 59900,
+        salePrice: nil,
+        tagText: nil,
+        rating: 4.5,
+        reviewCount: 132
+    ),
+    .init(
+        imageUrl: "outer3",
+        colors: ["#3A3A3A"],
+        gender: "WOMEN",
+        size: "XS~L",
+        itemName: "코지 후리스 집업",
+        originalPrice: 39900,
+        salePrice: 29900,
+        tagText: "한정특가",
+        rating: 4.7,
+        reviewCount: 89
+    ),
+    .init(
+        imageUrl: "outer1",
+        colors: ["#2F2F2F", "#B5B5B5"],
+        gender: "WOMEN",
+        size: "XS~XL",
+        itemName: "더블브레스트 테일러드 재킷",
+        originalPrice: 89900,
+        salePrice: 79900,
+        tagText: "온라인단독",
+        rating: 4.8,
+        reviewCount: 21
+    ),
+    .init(
+        imageUrl: "outer2",
+        colors: ["#1A1A1A", "#DDDDDD"],
+        gender: "MEN",
+        size: "S~XL",
+        itemName: "경량 패딩 자켓",
+        originalPrice: 59900,
+        salePrice: nil,
+        tagText: nil,
+        rating: 4.5,
+        reviewCount: 132
+    ),
+    .init(
+        imageUrl: "outer3",
+        colors: ["#3A3A3A"],
+        gender: "WOMEN",
+        size: "XS~L",
+        itemName: "코지 후리스 집업",
+        originalPrice: 39900,
+        salePrice: 29900,
+        tagText: "한정특가",
+        rating: 4.7,
+        reviewCount: 89
+    )
+]
