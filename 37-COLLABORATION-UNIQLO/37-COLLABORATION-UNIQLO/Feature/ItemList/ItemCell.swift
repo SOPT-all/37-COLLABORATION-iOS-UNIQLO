@@ -17,6 +17,7 @@ final class ItemCell: UICollectionViewCell {
     // MARK: - UI
     
     private let itemImage = UIImageView()
+    private let colorChipView = UIView()
     private let colorChipStackView = UIStackView()
     private let genderSizeLabel = UILabel()
     private let itemNameLabel = UILabel()
@@ -151,6 +152,7 @@ final class ItemCell: UICollectionViewCell {
         
         infoStackView.snp.makeConstraints {
             $0.horizontalEdges.equalToSuperview().inset(10)
+            $0.top.equalToSuperview().inset(14)
         }
         
         ratingLabel.snp.makeConstraints {
@@ -179,8 +181,6 @@ final class ItemCell: UICollectionViewCell {
     override func prepareForReuse() {
         super.prepareForReuse()
         
-        colorButtons.removeAll()
-        
         colorChipStackView.arrangedSubviews.forEach {
             colorChipStackView.removeArrangedSubview($0)
             $0.removeFromSuperview()
@@ -197,12 +197,10 @@ final class ItemCell: UICollectionViewCell {
         } else {
             colorChipStackView.isHidden = false
             item.colors.forEach { hex in
-                let chip = ColorPickButton()
-                chip.delegate = self
-                chip.configure(hex: hex)
-                chip.updateStyle(isSelected: false)
-                colorButtons.append(chip)
-                colorChipStackView.addArrangedSubview(chip)
+                if let color = UIColor(hexString: hex) {
+                    let chip = ColorChipView(color: color)
+                    colorChipStackView.addArrangedSubview(chip)
+                }
             }
         }
         
@@ -260,12 +258,5 @@ final class ItemCell: UICollectionViewCell {
             
             salePriceLabel.isHidden = true
         }
-    }
-}
-
-extension ItemCell: ColorPickButtonDelegate {
-    func colorPickButtonDidTap(_ button: ColorPickButton) {
-        colorButtons.forEach { $0.updateStyle(isSelected: false)}
-        button.updateStyle(isSelected: true)
     }
 }

@@ -32,5 +32,3 @@ extension UIFont {
         return UIFont(name: config.font.rawValue, size: config.size) ?? UIFont()
     }
 }
-
-
