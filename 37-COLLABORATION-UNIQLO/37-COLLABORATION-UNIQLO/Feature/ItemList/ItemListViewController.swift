@@ -20,6 +20,7 @@ final class ItemListViewController: BaseViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
+
         loadMockData()
         setDelegate()
     }
@@ -56,8 +57,4 @@ extension ItemListViewController: UICollectionViewDelegateFlowLayout {
         let width = (collectionView.frame.width / 2) - 2
         return CGSize(width: width, height: 407)
     }
-}
-
-#Preview {
-    ItemListViewController()
 }

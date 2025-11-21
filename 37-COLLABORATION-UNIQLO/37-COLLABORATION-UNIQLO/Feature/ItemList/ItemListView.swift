@@ -42,6 +42,10 @@ final class ItemListView: BaseView {
     private let customTabBarView = CustomTabBarView()
     
     override func setStyle() {
+        
+        topNavigationBar.do {
+            $0.backgroundColor = .white
+        }
         filterStackView.do {
             $0.axis = .horizontal
             $0.spacing = 4
@@ -60,9 +64,14 @@ final class ItemListView: BaseView {
         layoutButton.do {
             $0.setImage(UIImage(named: "grid"), for: .normal)
         }
+        
+        itemHeaderView.do {
+            $0.backgroundColor = .white
+        }
     }
     
     override func setUI() {
+        self.backgroundColor = .white
         addSubviews(topNavigationBar, categoryTabBarView, filterScrollView, itemHeaderView, collectionView, customTabBarView)
         filterScrollView.addSubview(filterStackView)
         itemHeaderView.addSubviews(itemCountLabel, layoutButton)
@@ -71,7 +80,7 @@ final class ItemListView: BaseView {
     override func setLayout() {
         
         topNavigationBar.snp.makeConstraints {
-            $0.top.equalTo(safeAreaLayoutGuide)
+            $0.top.equalToSuperview().inset(50)
             $0.horizontalEdges.equalToSuperview()
         }
         
