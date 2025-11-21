@@ -6,8 +6,11 @@
 //
 
 import UIKit
-
 import SnapKit
+
+protocol CategorryTabBarViewDelegate: AnyObject {
+    func categoryTabBarView(_ view: CategoryTabBarView, didSelectTabAt index: Int, title: String)
+}
 
 enum CategoryTab: String, CaseIterable {
     case categoryView
@@ -33,6 +36,8 @@ enum CategoryTab: String, CaseIterable {
 }
 
 final class CategoryTabBarView: BaseView {
+    
+    weak var delegate: CategorryTabBarViewDelegate?
     
     private let categoryTabType: CategoryTab
     private lazy var tabs = categoryTabType.categoryName
@@ -106,6 +111,9 @@ extension CategoryTabBarView: UICollectionViewDelegate {
         selectedIndex = indexPath.item
         collectionView.reloadData()
         collectionView.layoutIfNeeded()
+        
+        let title = tabs[indexPath.item]
+        delegate?.categoryTabBarView(self, didSelectTabAt: selectedIndex, title: title)
     }
 }
 
