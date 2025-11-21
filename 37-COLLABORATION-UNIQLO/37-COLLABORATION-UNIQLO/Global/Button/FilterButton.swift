@@ -16,18 +16,18 @@ enum FilterType: String {
     
     var title: String {
         switch self {
-
+            
         case .reset:
-        return "초기화"
+            return "초기화"
         case .popularity:
-        return "인기순"
+            return "인기순"
         case .category:
-        return "카테고리"
+            return "카테고리"
         case .price:
-        return "가격"
+            return "가격"
         case .color:
-        return "색상"
-
+            return "색상"
+            
         }
     }
     
@@ -41,7 +41,7 @@ enum FilterType: String {
 
 final class FilterButton: UIButton {
     private let type: FilterType
-    private let gap: CGFloat = 4
+    private let gap: CGFloat = 9
     
     init(type: FilterType) {
         self.type = type
@@ -64,17 +64,15 @@ final class FilterButton: UIButton {
         titleLabel?.font = UIFont(name: "Pretendard-Medium", size: 12)
         setImage(type.icon, for: .normal)
         
-        contentEdgeInsets = UIEdgeInsets(top: 6, left: 14, bottom: 6, right: 14)
-
-        // 이미지 오른쪽 → forceRightToLeft 덕분에 텍스트 오른쪽 배치됨
+        contentEdgeInsets = UIEdgeInsets(top: 6, left: 18, bottom: 6, right: 20)
+        
         semanticContentAttribute = .forceRightToLeft
         
-        // 텍스트와 이미지 간 간격 조절
         titleEdgeInsets = UIEdgeInsets(
-            top: 0, left: -gap, bottom: 0, right: gap
+            top: 0, left: -gap/2, bottom: 0, right: gap/2
         )
         imageEdgeInsets = UIEdgeInsets(
-            top: 0, left: gap, bottom: 0, right: -gap
+            top: 0, left: gap/2, bottom: 0, right: -gap/2
         )
     }
     

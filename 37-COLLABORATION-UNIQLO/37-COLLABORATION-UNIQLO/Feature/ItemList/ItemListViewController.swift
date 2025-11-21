@@ -20,7 +20,7 @@ final class ItemListViewController: BaseViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-
+        
         loadMockData()
         setDelegate()
     }

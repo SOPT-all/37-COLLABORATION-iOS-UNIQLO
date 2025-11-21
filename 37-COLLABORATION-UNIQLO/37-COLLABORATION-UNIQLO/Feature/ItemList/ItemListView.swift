@@ -25,7 +25,7 @@ final class ItemListView: BaseView {
     private let itemHeaderView = UIView()
     private let itemCountLabel = UILabel()
     private let layoutButton = UIButton()
-
+    
     lazy var collectionView: UICollectionView = {
         let layout = UICollectionViewFlowLayout()
         layout.scrollDirection = .vertical
@@ -96,10 +96,10 @@ final class ItemListView: BaseView {
         }
         
         filterStackView.snp.makeConstraints {
-            $0.leading.trailing.equalTo(filterScrollView.contentLayoutGuide).inset(8)
+            $0.horizontalEdges.equalTo(filterScrollView.contentLayoutGuide).inset(8)
             $0.top.bottom.equalTo(filterScrollView.frameLayoutGuide).inset(13)
         }
-
+        
         itemHeaderView.snp.makeConstraints {
             $0.top.equalTo(filterScrollView.snp.bottom)
             $0.horizontalEdges.equalToSuperview()
