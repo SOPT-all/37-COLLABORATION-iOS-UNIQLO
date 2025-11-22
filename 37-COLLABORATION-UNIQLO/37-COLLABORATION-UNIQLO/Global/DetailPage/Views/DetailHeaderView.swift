@@ -56,8 +56,8 @@ final class DetailHeaderView: BaseView {
         guard let index = buttons.firstIndex(of: sender) else {
             return
         }
-        selectedIndex = index
         onTabSelected?(index)
+        selectedIndex = index
     }
 
     private func updateButtonStyles() {

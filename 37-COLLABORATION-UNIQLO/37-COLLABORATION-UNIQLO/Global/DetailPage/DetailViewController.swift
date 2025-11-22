@@ -12,6 +12,7 @@ import SnapKit
 final class DetailViewController: UIViewController {
     private let header = DetailHeaderView()
     private let detailPageView = DetailPageView()
+    private var moving = false
 
     override func loadView() {
         self.view = detailPageView
@@ -42,6 +43,7 @@ final class DetailViewController: UIViewController {
     
     private func setTabSelectionHandler() {
         header.onTabSelected = { [weak self] index in
+            self?.moving = true
             let indexPath = IndexPath(row: index * 2, section: 1)
             self?.detailPageView.tableView.scrollToRow(at: indexPath, at: .top, animated: true)
         }
@@ -129,6 +131,7 @@ extension DetailViewController: UITableViewDataSource, UITableViewDelegate {
     }
 
     func scrollViewDidScroll(_ scrollView: UIScrollView) {
+        if moving { return }
         let headerHeight: CGFloat = 46
         let y = detailPageView.tableView.contentOffset.y + headerHeight + 0.5
         
@@ -141,5 +144,9 @@ extension DetailViewController: UITableViewDataSource, UITableViewDelegate {
                 break
             }
         }
+    }
+    
+    func scrollViewDidEndScrollingAnimation(_ scrollView: UIScrollView) {
+        moving = false
     }
 }
