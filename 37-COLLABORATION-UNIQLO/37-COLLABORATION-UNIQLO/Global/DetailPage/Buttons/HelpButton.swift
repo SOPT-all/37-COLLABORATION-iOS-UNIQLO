@@ -30,6 +30,8 @@ final class HelpButton: UIButton {
 extension HelpButton {
     private func setStyle() {
         self.do {
+            $0.layer.borderColor = UIColor.gray200.cgColor
+            $0.layer.borderWidth = 1
             $0.backgroundColor = .white
             $0.layer.cornerRadius = 17
         }

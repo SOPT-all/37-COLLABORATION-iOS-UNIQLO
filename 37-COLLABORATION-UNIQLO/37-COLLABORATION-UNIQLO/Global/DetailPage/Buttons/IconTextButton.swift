@@ -46,8 +46,7 @@ final class IconTextButton: UIButton {
     }
 
     private func setUI() {
-        addSubview(iconImage)
-        addSubview(textLabel)
+        addSubviews(iconImage, textLabel)
     }
 
     private func setLayout() {

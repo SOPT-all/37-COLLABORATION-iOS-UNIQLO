@@ -56,6 +56,15 @@ enum IconButtonType {
             return .white
         }
     }
+
+    var borderColor: UIColor? {
+        switch self {
+        case .hanger:
+            return nil
+        default:
+            return .gray200
+        }
+    }
 }
 
 final class IconCircleButton: UIButton {
@@ -88,6 +97,10 @@ extension IconCircleButton {
             $0.backgroundColor = type.backgroundColor
             $0.layer.cornerRadius = type.size / 2
             $0.clipsToBounds = true
+            if let borderColor = type.borderColor {
+                $0.layer.borderWidth = 1
+                $0.layer.borderColor = borderColor.cgColor
+            }
             $0.setImage(type.icon, for: .normal)
             if let selectedIcon = type.selectedIcon {
                 $0.setImage(selectedIcon, for: .selected)

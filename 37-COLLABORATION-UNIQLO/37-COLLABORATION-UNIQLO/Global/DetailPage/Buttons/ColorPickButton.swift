@@ -10,13 +10,10 @@ import UIKit
 import SnapKit
 import Then
 
-protocol ColorPickButtonDelegate: AnyObject {
-    func colorPickButtonDidTap(_ button: ColorPickButton)
-}
-
 final class ColorPickButton: UIButton {
-    weak var delegate: ColorPickButtonDelegate?
     
+    var onTap: (() -> Void)?
+
     private let cornerView = UIImageView()
     private let colorView = UIImageView()
     
@@ -53,12 +50,11 @@ extension ColorPickButton {
     }
 
     @objc private func didTap() {
-        delegate?.colorPickButtonDidTap(self)
+        onTap?()
     }
 
     private func setUI() {
-        addSubview(cornerView)
-        addSubview(colorView)
+        addSubviews(cornerView, colorView)
     }
 
     private func setLayout() {
@@ -80,7 +76,11 @@ extension ColorPickButton {
 
 extension ColorPickButton {
     func configure(hex: String) {
-        //TODO: colorView의 배경색 바꾸기
+        colorView.backgroundColor = UIColor(hex: hex)
+    }
+    
+    func configure(color: UIColor) {
+        colorView.backgroundColor = color
     }
 
     func updateStyle(isSelected: Bool) {
