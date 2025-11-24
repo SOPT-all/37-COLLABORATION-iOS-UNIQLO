@@ -1,8 +1,8 @@
 //
-//  UITableViewCell+.swift
+//  UITableView+.swift
 //  37-COLLABORATION-UNIQLO
 //
-//  Created by 이상수 on 11/22/25.
+//  Created by 이나연 on 11/21/25.
 //
 
 import UIKit

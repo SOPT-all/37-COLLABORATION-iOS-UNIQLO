@@ -17,13 +17,10 @@ final class TopNavigationBar: BaseView {
     private let cartButton = UIButton()
     
     override func setUI() {
-        [backButton, searchButton, cartButton].forEach {
-            addSubview($0)
-        }
+        addSubviews(backButton, searchButton, cartButton)
     }
     
     override func setStyle() {
-        backgroundColor = .white
         backButton.do {
             $0.setImage(.back, for: .normal)
         }
@@ -61,4 +58,3 @@ final class TopNavigationBar: BaseView {
         }
     }
 }
-

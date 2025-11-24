@@ -5,51 +5,29 @@
 //  Created by 정윤아 on 11/18/25.
 //
 import UIKit
-import SnapKit
 
-enum CategoryTab: String, CaseIterable {
-    case lightPadding
-    case parkaFleece
-    case jacket
-    case coat
-    case padding
-    
-    var categoryName: String {
-        switch self {
-        case .lightPadding: return "경량 패딩(PUFFTECH)"
-        case .parkaFleece: return "파카&블루종&후리스"
-        case .jacket: return "재킷&블레이저"
-        case .coat: return "코트"
-        case .padding: return "다운&패딩"
-        }
-    }
-}
+import SnapKit
+import Then
 
 final class CategoryTabCell: UICollectionViewCell {
-    static let identifier: String = "CategoryTabCell"
     
     // MARK: - UI
     
-    private let nameLabel: UILabel = {
-        let label = UILabel()
-        label.font = .reddit(.captionM12)
-        label.textColor = .gray400
-        label.textAlignment = .center
-        return label
-    }()
+    private let nameLabel = UILabel()
+    private(set) var  underlineView = UIView()
     
-    private let underlineView: UIView = {
-        let view = UIView()
-        view.backgroundColor = .black
-        view.isHidden = true
-        return view
-    }()
+    private var isTabSelected: Bool = false {
+        didSet {
+            updateUI()
+        }
+    }
     
     // MARK: - Init
     
     override init(frame: CGRect) {
         super.init(frame: frame)
         setUI()
+        setStyle()
         setLayout()
     }
     
@@ -60,10 +38,21 @@ final class CategoryTabCell: UICollectionViewCell {
     // MARK: - Layout
     
     private func setUI() {
-        contentView.addSubview(nameLabel)
-        contentView.addSubview(underlineView)
+        contentView.addSubviews(nameLabel, underlineView)
     }
     
+    private func setStyle() {
+        nameLabel.do {
+            $0.font = .reddit(.captionM12)
+            $0.textColor = .gray400
+            $0.textAlignment = .center
+        }
+        
+        underlineView.do {
+            $0.backgroundColor = .black
+            $0.isHidden = true
+        }
+    }
     private func setLayout() {
         nameLabel.snp.makeConstraints {
             $0.top.equalToSuperview().inset(14)
@@ -79,14 +68,13 @@ final class CategoryTabCell: UICollectionViewCell {
     
     // MARK: - Configure
     
-    func configure(with tab: CategoryTab) {
-        nameLabel.text = tab.categoryName
+    func configure(with tab: String, isSelected: Bool) {
+        self.isTabSelected = isSelected
+        nameLabel.text = tab
     }
     
-    override var isSelected: Bool {
-            didSet {
-                nameLabel.textColor = isSelected ? .black : .gray400
-                underlineView.isHidden = !isSelected
-            }
-        }
+    private func updateUI() {
+        nameLabel.textColor = isTabSelected ? .black : .gray400
+        underlineView.isHidden = !isTabSelected
+    }
 }
