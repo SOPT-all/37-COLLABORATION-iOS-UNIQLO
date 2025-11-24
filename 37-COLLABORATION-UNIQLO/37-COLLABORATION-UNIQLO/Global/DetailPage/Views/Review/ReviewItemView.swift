@@ -77,7 +77,7 @@ final class ReviewItemView: BaseView {
             starView,
             optionStackView,
             commentLabel,
-            userInfoLabel,
+            userInfoLabel
         )
     }
     

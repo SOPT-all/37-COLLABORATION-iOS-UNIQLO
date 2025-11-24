@@ -10,8 +10,8 @@ import UIKit
 final class CategoryViewController: BaseViewController {
     
     private let rootView = CategoryView()
-    private let itemData = CategoryItemModel.mockData
-    private let outerData = OuterItemModel.mockData
+    private let itemData = CategoryItemModel.model
+    private let outerData = OuterItemModel.model
     
     private var itemSelectedIndex: Int = 1
     private var outerSelectedIndex: Int = 0
