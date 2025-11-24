@@ -11,7 +11,7 @@ import UIKit
 struct CategoryItemModel {
     let item: String
     
-    static let mockData: [CategoryItemModel] = [
+    static let model: [CategoryItemModel] = [
         CategoryItemModel(item: "신발"),
         CategoryItemModel(item: "아우터"),
         CategoryItemModel(item: "팬츠"),
@@ -34,7 +34,7 @@ struct OuterItemModel {
     let item: String
     let image: UIImage
     
-    static let mockData: [OuterItemModel] = [
+    static let model: [OuterItemModel] = [
         OuterItemModel(item: "경량 패딩 (PUFFTECH)", image: .outer1),
         OuterItemModel(item: "파카 & 블루종 & 후리스", image: .outer2),
         OuterItemModel(item: "재킷 & 블레이저", image: .outer3),
