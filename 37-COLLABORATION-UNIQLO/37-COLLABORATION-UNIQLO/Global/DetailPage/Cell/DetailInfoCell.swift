@@ -41,7 +41,7 @@ final class DetailInfoCell: UITableViewCell {
             UnderLineView(),
             detailInfoView,
             UnderLineView(),
-            purchaseSupportView,
+            purchaseSupportView
         )
     }
     
