@@ -76,7 +76,7 @@ extension ColorPickButton {
 
 extension ColorPickButton {
     func configure(hex: String) {
-        colorView.backgroundColor = UIColor(hex: hex)
+        colorView.backgroundColor = UIColor(hexString: hex)
     }
     
     func configure(color: UIColor) {

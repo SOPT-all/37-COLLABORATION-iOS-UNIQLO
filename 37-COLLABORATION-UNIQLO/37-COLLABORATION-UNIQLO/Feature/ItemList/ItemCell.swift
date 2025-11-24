@@ -10,9 +10,7 @@ import SnapKit
 import Then
 
 final class ItemCell: UICollectionViewCell {
-    
-    static let identifier: String = "ItemCell"
-    
+        
     // MARK: - UI
     
     private let itemImage = UIImageView()
