@@ -16,7 +16,10 @@ final class NetwrokService {
         endPoint: EndPoint,
         body: Encodable? = nil
     ) async throws -> Response {
-        let url = endPoint.url // TODO: Config 추가
+        guard let baseURL = Bundle.main.infoDictionary?["BASE_URL"] as? String else {
+            throw NetworkError.urlError
+        }
+        let url = baseURL + endPoint.url
         
         guard let encodedURL = url.addingPercentEncoding(withAllowedCharacters: .urlQueryAllowed) else {
             throw NetworkError.urlError
