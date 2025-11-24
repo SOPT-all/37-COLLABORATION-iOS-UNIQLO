@@ -87,39 +87,39 @@ extension SizeInfoCell.Composer {
     }
     
     private func size() -> BaseSizeView {
-        let viewModel = BaseSizeView.ViewModel(
+        let model = BaseSizeView.Model(
             icon: .size1,
             title: "사이즈 차트",
             subTitle: "제품을 구매하기 전, 이전에 구매했던 제품의 사이즈와 비교해 보세요."
         )
-        return BaseSizeView(viewModel: viewModel)
+        return BaseSizeView(model: model)
     }
     
     private func guide() -> BaseSizeView {
-        let viewModel = BaseSizeView.ViewModel(
+        let model = BaseSizeView.Model(
             icon: .size2,
             title: "신장별 착용 가이드",
             subTitle: "신장에 따른 제품의 전체 길이를 확인해 보세요."
         )
-        return BaseSizeView(viewModel: viewModel)
+        return BaseSizeView(model: model)
     }
     
     private func assistant() -> BaseSizeView {
-        let viewModel = BaseSizeView.ViewModel(
+        let model = BaseSizeView.Model(
             icon: .size3,
             title: "마이 사이즈 어시스트",
             subTitle: "치수를 간단히 입력하거나 카메라 캡처를 통해 권장 사이즈를 확인해 보세요."
         )
-        return BaseSizeView(viewModel: viewModel)
+        return BaseSizeView(model: model)
     }
     
     private func styling() -> BaseSizeView {
-        let viewModel = BaseSizeView.ViewModel(
+        let model = BaseSizeView.Model(
             icon: .size4,
             title: "신장별 스타일링",
             subTitle: "나와 비슷한 체형의 고객이 착용한 사이즈를 확인해 보세요."
         )
-        return BaseSizeView(viewModel: viewModel)
+        return BaseSizeView(model: model)
     }
     
 }

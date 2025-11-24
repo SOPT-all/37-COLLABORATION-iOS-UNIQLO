@@ -23,17 +23,17 @@ final class DivideBarCell: UITableViewCell {
         fatalError("init(coder:) has not been implemented")
     }
     
-    func setStyle() {
+    private func setStyle() {
         bar.do {
             $0.backgroundColor = .gray100
         }
     }
 
-    func setUI() {
+    private func setUI() {
         addSubview(bar)
     }
 
-    func setLayout() {
+    private func setLayout() {
         bar.snp.makeConstraints {
             $0.height.equalTo(10)
             $0.edges.equalToSuperview()

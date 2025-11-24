@@ -17,9 +17,9 @@ final class BaseSizeView: BaseView {
     private let subTitleLabel = UILabel()
     private let detailButton = UIButton()
     
-    init(viewModel: ViewModel) {
+    init(model: Model) {
         super.init(frame: .zero)
-        configure(viewModel: viewModel)
+        configure(model: model)
     }
     
     required init?(coder: NSCoder) {
@@ -77,12 +77,12 @@ final class BaseSizeView: BaseView {
         }
     }
 
-    func configure(viewModel: ViewModel) {
-        iconView.image = viewModel.icon
-        titleLabel.text = viewModel.title
-        subTitleLabel.text = viewModel.subTitle
+    func configure(model: Model) {
+        iconView.image = model.icon
+        titleLabel.text = model.title
+        subTitleLabel.text = model.subTitle
         subTitleLabel.setTextWithLineHeight(
-            viewModel.subTitle,
+            model.subTitle,
             lineHeight: subTitleLabel.font.pointSize,
             indent: false
         )
@@ -92,7 +92,7 @@ final class BaseSizeView: BaseView {
 
 extension BaseSizeView {
     
-    struct ViewModel {
+    struct Model {
         let icon: UIImage
         let title: String
         let subTitle: String
