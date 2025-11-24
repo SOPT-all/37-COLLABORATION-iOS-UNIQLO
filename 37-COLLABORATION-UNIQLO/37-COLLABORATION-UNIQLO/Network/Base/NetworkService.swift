@@ -7,9 +7,9 @@
 
 import Foundation
 
-final class NetwrokService {
+final class NetworkService {
     
-    static let shared = NetwrokService()
+    static let shared = NetworkService()
     private init() {}
     
     func request<Response: Decodable>(
@@ -47,7 +47,7 @@ final class NetwrokService {
     }
 }
 
-extension NetwrokService {
+extension NetworkService {
     private func makeRequestBody<Body: Encodable>(data: Body) throws -> Data {
         do {
             let jsonEncoder = JSONEncoder()
