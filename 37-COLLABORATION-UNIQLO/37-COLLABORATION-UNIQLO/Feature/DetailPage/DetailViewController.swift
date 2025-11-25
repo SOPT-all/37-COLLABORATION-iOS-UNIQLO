@@ -10,21 +10,64 @@ import UIKit
 import SnapKit
 
 final class DetailViewController: UIViewController {
+    private let productID: Int
+
     private let header = DetailHeaderView()
     private let detailPageView = DetailPageView()
     private var moving = false
 
+    private let productDetailService = DefaultProductDetailService()
+    private var detailResponse: ProductDetailResponse?
+
+    private let productInfoService = DefaultProductInfoService()
+    private var infoResponse: ProductInfoResponse?
+
+    init(productID: Int) {
+        self.productID = productID
+        super.init(nibName: nil, bundle: nil)
+    }
+    
+    required init?(coder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
+    
     override func loadView() {
         self.view = detailPageView
     }
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        getProductDetails()
+        getProductInfo()
         register()
         setDelegate()
         setTabSelectionHandler()
     }
     
+    private func getProductDetails() {
+        Task { @MainActor in
+            do {
+                let result = try await productDetailService.getProductDetails(productID: productID)
+                detailResponse = result
+                detailPageView.tableView.reloadData()
+            } catch {
+                print("error in getProductDetails")
+            }
+        }
+    }
+    
+    private func getProductInfo() {
+        Task { @MainActor in
+            do {
+                let result = try await productInfoService.getProductInfo(productID: productID)
+                infoResponse = result
+                detailPageView.tableView.reloadData()
+            } catch {
+                print("error in getProductInfo")
+            }
+        }
+    }
+
     private func register() {
         detailPageView.tableView.register(
             ProductSummaryCell.self,
@@ -87,14 +130,14 @@ extension DetailViewController: UITableViewDataSource, UITableViewDelegate {
 
         if indexPath.section == 0 {
             let cell: ProductSummaryCell = tableView.dequeueReusableCell(for: indexPath)
-            cell.configure(items: [.outer1, .outer2, .outer3, .outer4])
+            cell.configure(with: infoResponse)
             return cell
         }
         
         switch indexPath.row {
         case 0:
             let cell: DetailInfoCell = tableView.dequeueReusableCell(for: indexPath)
-            cell.configure(with: nil)
+            cell.configure(with: detailResponse)
             return cell
 
         case 2:
