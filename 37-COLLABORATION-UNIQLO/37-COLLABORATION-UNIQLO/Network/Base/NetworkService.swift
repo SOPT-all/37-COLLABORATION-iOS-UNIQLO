@@ -76,8 +76,7 @@ extension NetworkService {
                 throw NetworkError.noData
             }
             
-            guard let code = Int(decoded.code),
-                  (200...299).contains(code) else {
+            guard (200...299).contains(decoded.code) else {
                 throw NetworkError.serverErrorMessage(decoded.msg)
             }
             
