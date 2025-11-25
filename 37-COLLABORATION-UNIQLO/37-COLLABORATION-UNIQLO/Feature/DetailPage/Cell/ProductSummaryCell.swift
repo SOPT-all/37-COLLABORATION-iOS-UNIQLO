@@ -12,7 +12,7 @@ import Then
 
 final class ProductSummaryCell: UITableViewCell {
 
-    private var items = [UIImage?]()
+    private var items = [URL]()
 
     private let photoCollectionView: UICollectionView = {
         let layout = UICollectionViewFlowLayout()
@@ -83,19 +83,13 @@ final class ProductSummaryCell: UITableViewCell {
             $0.bottom.equalToSuperview()
         }
     }
-
-    func configure(items: [UIImage?]) {
-        self.items = items
+    
+    func configure(with model: ProductInfoResponse?) {
+        guard let model else { return }
+        items = model.productImageUrl
+        photoCollectionView.reloadData()
         indicator.configure(current: 1, total: items.count)
-        productSummaryView.configure(
-            name: "밀라노립니트재킷",
-            number: "479775",
-            colors: [
-                .init(hex: "#212025", name: "09 BLACK"),
-                .init(hex: "#828388", name: "10 GRAY")
-            ],
-            price: "49,000"
-        )
+        productSummaryView.configure(model: model)
     }
 }
 
@@ -108,7 +102,7 @@ extension ProductSummaryCell: UICollectionViewDataSource, UICollectionViewDelega
         guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "PhotoCell", for: indexPath) as? PhotoCell else {
             return UICollectionViewCell()
         }
-        cell.configure(image: items[indexPath.row])
+        cell.configure(url: items[indexPath.row])
         return cell
     }
     

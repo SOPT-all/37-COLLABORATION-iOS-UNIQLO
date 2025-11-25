@@ -52,7 +52,12 @@ final class DetailInfoCell: UITableViewCell {
         }
     }
 
-    func configure(with data: DetailData? = nil) {
-        detailInfoView.configure(items: DetailData.MockData)
+    func configure(with data: ProductDetailResponse? = nil) {
+        guard let data else { return }
+        topSummaryView.configure(
+            imageURL: data.detailImageUrlList,
+            text: data.detailText
+        )
+        detailInfoView.configure(items: data)
     }
 }
