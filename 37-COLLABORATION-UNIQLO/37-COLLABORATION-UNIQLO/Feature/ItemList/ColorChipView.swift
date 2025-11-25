@@ -17,7 +17,9 @@ final class ColorChipView: UIView {
         layer.cornerRadius = 10
         clipsToBounds = true
         
-        snp.makeConstraints { $0.size.equalTo(19)}
+        snp.makeConstraints {
+            $0.size.equalTo(19)
+        }
     }
     
     required init?(coder: NSCoder) {

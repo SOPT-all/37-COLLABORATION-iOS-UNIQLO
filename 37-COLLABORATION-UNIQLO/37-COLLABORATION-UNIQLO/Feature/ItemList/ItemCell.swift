@@ -22,14 +22,14 @@ final class ItemCell: UICollectionViewCell {
     private let itemNameLabel = UILabel()
     private let originalPriceLabel = UILabel()
     private let salePriceLabel = UILabel()
-    private lazy var priceStackView = UIStackView(arrangedSubviews: [originalPriceLabel, salePriceLabel])
+    private var priceStackView = UIStackView()
     private let tagLabel = UILabel()
     private let starImageView = UIImageView(image: UIImage(named: "star_filled"))
     private let ratingLabel = UILabel()
     private let reviewCountLabel = UILabel()
-    private lazy var ratingStackView = UIStackView(arrangedSubviews: [starImageView, ratingLabel, reviewCountLabel])
+    private var ratingStackView = UIStackView()
     private let likeButton = UIButton()
-    private lazy var infoStackView = UIStackView(arrangedSubviews: [colorChipStackView, genderSizeLabel, itemNameLabel, priceStackView, tagLabel, ratingStackView])
+    private var infoStackView = UIStackView()
     private let bottomWhiteView = UIView()
     
     // MARK: - Init
@@ -50,6 +50,10 @@ final class ItemCell: UICollectionViewCell {
         
         contentView.addSubview(itemImage)
         contentView.addSubview(bottomWhiteView)
+        
+        priceStackView.addArrangedSubviews(originalPriceLabel, salePriceLabel)
+        ratingStackView.addArrangedSubviews(starImageView, ratingLabel, reviewCountLabel)
+        infoStackView.addArrangedSubviews(colorChipStackView, genderSizeLabel, itemNameLabel, priceStackView, tagLabel, ratingStackView)
         
         bottomWhiteView.addSubview(infoStackView)
         bottomWhiteView.addSubview(likeButton)
@@ -100,12 +104,6 @@ final class ItemCell: UICollectionViewCell {
             $0.textColor = .gray600
         }
         
-        starImageView.do {
-            $0.snp.makeConstraints {
-                $0.height.width.equalTo(20)
-            }
-        }
-        
         ratingLabel.do {
             $0.font = .pretendard(.captionL11)
             $0.textColor = .black
@@ -133,6 +131,7 @@ final class ItemCell: UICollectionViewCell {
             $0.axis = .vertical
             $0.alignment = .leading
         }
+        
         bottomWhiteView.do {
             $0.backgroundColor = .white
         }
@@ -148,6 +147,10 @@ final class ItemCell: UICollectionViewCell {
             $0.top.equalTo(itemImage.snp.bottom)
             $0.leading.trailing.bottom.equalToSuperview()
         }
+        
+        starImageView.snp.makeConstraints {
+                $0.height.width.equalTo(20)
+            }
         
         infoStackView.snp.makeConstraints {
             $0.horizontalEdges.equalToSuperview().inset(10)
