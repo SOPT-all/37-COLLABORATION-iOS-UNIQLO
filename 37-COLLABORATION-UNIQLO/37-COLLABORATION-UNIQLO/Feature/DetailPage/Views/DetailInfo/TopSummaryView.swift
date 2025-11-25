@@ -7,6 +7,7 @@
 
 import UIKit
 
+import Kingfisher
 import SnapKit
 import Then
 
@@ -31,11 +32,6 @@ final class TopSummaryView: BaseView {
             $0.font = .pretendard(.captionR12)
             $0.textColor = .black
             $0.numberOfLines = 0
-            $0.setTextWithLineHeight(
-                "적당히 탄탄함이 느껴지는 원단을 사용하였습니다.",
-                lineHeight: $0.font.pointSize,
-                indent: false
-            )
         }
     }
 
@@ -62,7 +58,20 @@ final class TopSummaryView: BaseView {
         }
     }
 
-    func configure(imageURL: String?, text: String) {
-        summaryLabel.text = text
+    func configure(imageURL: [String], text: String) {
+        summaryLabel.setTextWithLineHeight(
+            text,
+            lineHeight: summaryLabel.font.pointSize,
+            indent: false
+        )
+
+        guard let imageURL = imageURL.first, let url = URL(string: imageURL) else {
+            return
+        }
+
+        photoView.kf.setImage(
+            with: url,
+            placeholder: UIImage(systemName: "person")
+        )
     }
 }
