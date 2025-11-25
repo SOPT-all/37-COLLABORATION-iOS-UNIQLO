@@ -6,11 +6,13 @@
 //
 
 import UIKit
+
 import SnapKit
 import Then
+import Kingfisher
 
 final class ItemCell: UICollectionViewCell {
-        
+    
     // MARK: - UI
     
     private let itemImage = UIImageView()
@@ -187,7 +189,11 @@ final class ItemCell: UICollectionViewCell {
     }
     
     func configure(with item: Item) {
-        itemImage.image = UIImage(named: item.imageUrl)
+        if let url = URL(string: item.imageUrl) {
+            itemImage.kf.setImage(with: url)
+        } else {
+            itemImage.image = UIImage(named: item.imageUrl)
+        }
         
         if item.colors.isEmpty {
             colorChipStackView.isHidden = true
@@ -227,14 +233,14 @@ final class ItemCell: UICollectionViewCell {
         
         if let sale = sale, sale < original {
             
-            let original = NSAttributedString(
+            let originalAttr = NSAttributedString(
                 string: "\(originalString)원",
                 attributes: [
                     .strikethroughStyle: NSUnderlineStyle.single.rawValue,
                     .foregroundColor: UIColor.gray400
                 ]
             )
-            originalPriceLabel.attributedText = original
+            originalPriceLabel.attributedText = originalAttr
             originalPriceLabel.isHidden = false
             
             let saleString = formatter.string(from: NSNumber(value: sale)) ?? "\(sale)"
@@ -243,7 +249,6 @@ final class ItemCell: UICollectionViewCell {
             salePriceLabel.isHidden = false
             
         } else {
-            
             originalPriceLabel.attributedText = nil
             originalPriceLabel.text = "\(originalString)원"
             originalPriceLabel.textColor = .gray900
