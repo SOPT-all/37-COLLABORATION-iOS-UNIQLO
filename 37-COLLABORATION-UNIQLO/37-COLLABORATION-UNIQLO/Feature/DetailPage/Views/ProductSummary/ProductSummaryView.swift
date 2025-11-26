@@ -97,7 +97,7 @@ final class ProductSummaryView: BaseView {
         nameLabel.text = model.name
         numberLabel.text = "제품번호: \(model.productId)"
         priceLabel.text = model.originPrice.replacingOccurrences(of: "원", with: "")
-        reviewSummaryView.configure(rate: model.starAverage)
+        reviewSummaryView.configure(rate: model.starAverage, commentNum: model.reviewCount)
 
         let options: [ColorOption] = model.colorCode.compactMap { code in
             guard let name = model.color[code] else {
