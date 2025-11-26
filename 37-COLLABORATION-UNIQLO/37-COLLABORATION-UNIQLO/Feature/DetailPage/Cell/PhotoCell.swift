@@ -7,6 +7,7 @@
 
 import UIKit
 
+import Kingfisher
 import SnapKit
 
 final class PhotoCell: UICollectionViewCell {
@@ -21,7 +22,10 @@ final class PhotoCell: UICollectionViewCell {
 
     required init?(coder: NSCoder) { fatalError() }
 
-    func configure(image: UIImage?) {
-        imageView.image = image
+    func configure(url: URL) {
+        imageView.kf.setImage(
+            with: url,
+            placeholder: UIImage(systemName: "person")
+        )
     }
 }
