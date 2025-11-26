@@ -57,6 +57,7 @@ final class DetailViewController: BaseViewController {
     
     override func setAddTarget() {
         detailPageView.navigationBar.backButton.addTarget(self, action: #selector(backButtonDidTap), for: .touchUpInside)
+        detailPageView.upButton.addTarget(self, action: #selector(scrollToTop), for: .touchUpInside)
     }
 
     func setProductID(id: Int) {
