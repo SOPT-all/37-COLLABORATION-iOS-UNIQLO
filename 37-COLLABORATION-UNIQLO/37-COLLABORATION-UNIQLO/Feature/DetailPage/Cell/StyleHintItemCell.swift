@@ -9,6 +9,7 @@ import UIKit
 
 import SnapKit
 import Then
+import Kingfisher
 
 final class StyleHintItemCell: UICollectionViewCell {
     private let imageView = UIImageView()
@@ -51,14 +52,22 @@ final class StyleHintItemCell: UICollectionViewCell {
         }
 
         heartButton.snp.makeConstraints {
-            $0.top.equalTo(imageView).inset(16)
-            $0.trailing.equalTo(imageView).inset(14)
+            $0.top.equalTo(imageView).inset(4)
+            $0.trailing.equalTo(imageView).inset(4)
         }
     }
 
     override func prepareForReuse() {
         super.prepareForReuse()
         heartButton.isSelected = false
+    }
+    
+    func configure(urlString: String) {
+        if let url = URL(string: urlString) {
+            imageView.kf.setImage(with: url)
+        } else {
+            imageView.image = nil
+        }
     }
 }
 

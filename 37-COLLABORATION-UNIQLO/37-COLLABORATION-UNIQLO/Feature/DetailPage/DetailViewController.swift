@@ -10,7 +10,10 @@ import UIKit
 import SnapKit
 
 final class DetailViewController: UIViewController {
-    private(set) var productID: Int = 1
+    private(set) var productID: Int
+    
+    private let service: ProductStyleHintService = DefaultStyleHintService()
+    private var styleHintURLs: [String] = []
 
     private let header = DetailHeaderView()
     private let detailPageView = DetailPageView()
@@ -21,6 +24,15 @@ final class DetailViewController: UIViewController {
 
     private let productInfoService = DefaultProductInfoService()
     private var infoResponse: ProductInfoResponse?
+    
+    init(productID: Int) {
+        self.productID = productID
+        super.init(nibName: nil, bundle: nil)
+    }
+
+    required init?(coder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
     
     override func loadView() {
         self.view = detailPageView
@@ -33,6 +45,7 @@ final class DetailViewController: UIViewController {
         register()
         setDelegate()
         setTabSelectionHandler()
+        getStyleHints()
     }
     
     private func getProductDetails() {
@@ -55,6 +68,28 @@ final class DetailViewController: UIViewController {
                 detailPageView.tableView.reloadData()
             } catch {
                 print("error in getProductInfo")
+            }
+        }
+    }
+    
+    private func getStyleHints() {
+        Task { [weak self] in
+            guard let self else {
+                return
+            }
+            
+            do {
+                let urls = try await service.getStyleHints(productId: productID)
+                
+                await MainActor.run {
+                    self.styleHintURLs = urls
+                    self.detailPageView.tableView.reloadRows(
+                        at: [IndexPath(row: 4, section: 1)],
+                        with: .none
+                    )
+                }
+            } catch {
+                print("error int getStyleHints: \(error)")
             }
         }
     }
@@ -104,10 +139,6 @@ final class DetailViewController: UIViewController {
             $0.backgroundColor = .white
         }
     }
-
-    func setProductID(id: Int) {
-        self.productID = id
-    }
 }
 
 extension DetailViewController: UITableViewDataSource, UITableViewDelegate {
@@ -141,6 +172,7 @@ extension DetailViewController: UITableViewDataSource, UITableViewDelegate {
 
         case 4:
             let cell: StyleHintCell = tableView.dequeueReusableCell(for: indexPath)
+            cell.configure(urls: styleHintURLs)
             return cell
 
         case 6:
