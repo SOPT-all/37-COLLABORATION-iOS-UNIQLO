@@ -6,6 +6,7 @@
 //
 
 struct Item {
+    let productId: Int
     let imageUrl: String
     let colors: [String] //#hex
     let gender: String
@@ -19,7 +20,7 @@ struct Item {
 }
 
 let mockItems: [Item] = [
-    Item(
+    Item(productId: 1,
         imageUrl: "outer1",
         colors: ["#2F2F2F", "#B5B5B5"],
         gender: "WOMEN",
@@ -31,7 +32,7 @@ let mockItems: [Item] = [
         rating: 4.8,
         reviewCount: 21
     ),
-    Item(
+    Item(productId: 2,
         imageUrl: "outer1",
         colors: ["#2F2F2F", "#B5B5B5"],
         gender: "WOMEN",
@@ -43,7 +44,7 @@ let mockItems: [Item] = [
         rating: 4.8,
         reviewCount: 21
     ),
-    Item(
+    Item(productId: 3,
         imageUrl: "outer1",
         colors: ["#2F2F2F", "#B5B5B5"],
         gender: "WOMEN",
@@ -55,7 +56,7 @@ let mockItems: [Item] = [
         rating: 4.8,
         reviewCount: 21
     ),
-    Item(
+    Item(productId: 4,
         imageUrl: "outer1",
         colors: ["#2F2F2F", "#B5B5B5"],
         gender: "WOMEN",
