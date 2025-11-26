@@ -94,7 +94,7 @@ extension ItemListViewController: UICollectionViewDelegate {
         let selectedItem = items[indexPath.item]
         
         let detailViewController = DetailViewController()
-        detailViewController.setProductId(selectedItem.productId)
+        detailViewController.setProductID(id: selectedItem.productId)
         
         navigationController?.pushViewController(detailViewController, animated: true)
     }

@@ -24,8 +24,7 @@ final class PhotoCell: UICollectionViewCell {
 
     func configure(url: URL) {
         imageView.kf.setImage(
-            with: url,
-            placeholder: UIImage(systemName: "person")
+            with: url
         )
     }
 }

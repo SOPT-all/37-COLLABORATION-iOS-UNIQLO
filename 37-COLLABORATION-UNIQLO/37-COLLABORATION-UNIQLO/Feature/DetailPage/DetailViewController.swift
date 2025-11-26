@@ -9,19 +9,19 @@ import UIKit
 
 import SnapKit
 
-final class DetailViewController: UIViewController {
-    private(set) var productID: Int?
+final class DetailViewController: BaseViewController {
+    private(set) var productID: Int = 1
     
     private let service: ProductStyleHintService = DefaultStyleHintService()
     private var styleHintURLs: [String] = []
-
+    
     private let header = DetailHeaderView()
     private let detailPageView = DetailPageView()
     private var moving = false
-
+    
     private let productDetailService = DefaultProductDetailService()
     private var detailResponse: ProductDetailResponse?
-
+    
     private let productInfoService = DefaultProductInfoService()
     private var infoResponse: ProductInfoResponse?
     
@@ -40,19 +40,8 @@ final class DetailViewController: UIViewController {
         setAddTarget()
         setDelegate()
         setTabSelectionHandler()
-        getStyleHints(productID: productID)
-    }
-    
-    private func getProductDetails() {
-        Task { @MainActor in
-            do {
-                let result = try await productDetailService.getProductDetails(productID: productID)
-                detailResponse = result
-                detailPageView.tableView.reloadData()
-            } catch {
-                print("error in getProductDetails")
-            }
-        }
+        getReviews()
+        getStyleHints()
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -69,7 +58,7 @@ final class DetailViewController: UIViewController {
         detailPageView.navigationBar.backButton.addTarget(self, action: #selector(backButtonDidTap), for: .touchUpInside)
         detailPageView.upButton.addTarget(self, action: #selector(scrollToTop), for: .touchUpInside)
     }
-
+    
     func setProductID(id: Int) {
         self.productID = id
     }
@@ -85,7 +74,7 @@ final class DetailViewController: UIViewController {
             $0.backgroundColor = .white
         }
     }
-
+    
     private func register() {
         detailPageView.tableView.register(
             ProductSummaryCell.self,
@@ -101,6 +90,10 @@ final class DetailViewController: UIViewController {
         detailPageView.tableView.setContentOffset(.zero, animated: true)
     }
     
+    @objc private func backButtonDidTap() {
+        navigationController?.popViewController(animated: true)
+    }
+    
     private func setTabSelectionHandler() {
         header.onTabSelected = { [weak self] index in
             self?.moving = true
@@ -109,8 +102,21 @@ final class DetailViewController: UIViewController {
         }
     }
     
+    private func getProductInfo() {
+        Task {
+            do {
+                let result = try await productInfoService.getProductInfo(productID: productID)
+                infoResponse = result
+                let indexPath = IndexPath(row: 0, section: 0)
+                detailPageView.tableView.reloadRows(at: [indexPath], with: .automatic)
+            } catch {
+                print("error in getProductInfo")
+            }
+        }
+    }
+    
     private func getProductDetails() {
-        Task { @MainActor in
+        Task {
             do {
                 let result = try await productDetailService.getProductDetails(productID: productID)
                 detailResponse = result
@@ -123,15 +129,14 @@ final class DetailViewController: UIViewController {
         }
     }
     
-    private func getProductInfo() {
-        Task { @MainActor in
+    private func getStyleHints() {
+        Task {
             do {
-                let result = try await productInfoService.getProductInfo(productID: productID)
-                infoResponse = result
-                let indexPath = IndexPath(row: 2, section: 1)
-                detailPageView.tableView.reloadRows(at: [indexPath], with: .automatic)
+                let urls = try await service.getStyleHints(productId: productID)
+                self.styleHintURLs = urls
+                self.detailPageView.tableView.reloadRows(at: [IndexPath(row: 4, section: 1)], with: .none)
             } catch {
-                print("error in getProductInfo")
+                print("error int getStyleHints: \(error)")
             }
         }
     }
@@ -148,25 +153,21 @@ final class DetailViewController: UIViewController {
             }
         }
     }
-
-    func setProductID(id: Int) {
-        self.productID = id
-    }
 }
 
 extension DetailViewController: UITableViewDataSource, UITableViewDelegate {
-
+    
     func numberOfSections(in tableView: UITableView) -> Int {
         return 2
     }
-
+    
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         section == 0 ? 1 : 7
     }
     
     func tableView(_ tableView: UITableView,
                    cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-
+        
         if indexPath.section == 0 {
             let cell: ProductSummaryCell = tableView.dequeueReusableCell(for: indexPath)
             cell.configure(with: infoResponse)
@@ -178,22 +179,22 @@ extension DetailViewController: UITableViewDataSource, UITableViewDelegate {
             let cell: DetailInfoCell = tableView.dequeueReusableCell(for: indexPath)
             cell.configure(with: detailResponse)
             return cell
-
+            
         case 2:
             let cell: SizeInfoCell = tableView.dequeueReusableCell(for: indexPath)
             return cell
-
+            
         case 4:
             let cell: StyleHintCell = tableView.dequeueReusableCell(for: indexPath)
             cell.configure(urls: styleHintURLs)
             return cell
-
+            
         case 6:
             let cell: ReviewCell = tableView.dequeueReusableCell(for: indexPath)
             guard let reviewData = reviewData else { return cell }
             cell.configure(items: reviewData)
             return cell
-
+            
         default:
             let cell: DivideBarCell = tableView.dequeueReusableCell(for: indexPath)
             return cell
@@ -203,17 +204,17 @@ extension DetailViewController: UITableViewDataSource, UITableViewDelegate {
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         detailPageView.tableView.deselectRow(at: indexPath, animated: true)
     }
-
+    
     func tableView(_ tableView: UITableView,
                    viewForHeaderInSection section: Int) -> UIView? {
         return (section == 1) ? header : nil
     }
-
+    
     func tableView(_ tableView: UITableView,
                    heightForHeaderInSection section: Int) -> CGFloat {
         return (section == 1) ? 46 : .zero
     }
-
+    
     func scrollViewDidScroll(_ scrollView: UIScrollView) {
         if moving { return }
         let headerHeight: CGFloat = 46
