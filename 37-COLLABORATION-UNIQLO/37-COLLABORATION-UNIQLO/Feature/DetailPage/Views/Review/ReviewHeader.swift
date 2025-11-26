@@ -57,4 +57,8 @@ final class ReviewHeader: BaseView {
             $0.bottom.equalToSuperview()
         }
     }
+    
+    func configure(rate: Float, reviewCount: Int) {
+        reviewSummaryView.configure(rate: rate, commentNum: reviewCount)
+    }
 }
