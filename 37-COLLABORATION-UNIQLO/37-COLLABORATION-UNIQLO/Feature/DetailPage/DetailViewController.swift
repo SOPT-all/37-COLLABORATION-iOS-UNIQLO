@@ -37,6 +37,7 @@ final class DetailViewController: BaseViewController {
         register()
         setDelegate()
         setTabSelectionHandler()
+        setUpButtonHandler()
     }
     
     override func viewDidLayoutSubviews() {

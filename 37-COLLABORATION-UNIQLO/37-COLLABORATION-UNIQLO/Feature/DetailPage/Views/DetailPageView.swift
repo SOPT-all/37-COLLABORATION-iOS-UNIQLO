@@ -13,6 +13,7 @@ import Then
 final class DetailPageView: BaseView {
 
     let tableView =  UITableView(frame: .zero, style: .plain)
+    var onTapUpButton: (() -> Void)?
 
     private(set) var navigationBar = TopNavigationBar()
     private let shareButton = IconCircleButton(type: .share)
@@ -21,10 +22,15 @@ final class DetailPageView: BaseView {
 
     override init(frame: CGRect) {
         super.init(frame: frame)
+        setAddTarget()
     }
     
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
+    }
+    
+    private func setAddTarget() {
+        upButton.addTarget(self, action: #selector(didTapUpButton), for: .touchUpInside)
     }
 
     override func setStyle() {
@@ -74,6 +80,10 @@ final class DetailPageView: BaseView {
             $0.trailing.equalToSuperview().inset(16)
             $0.bottom.equalTo(bottomBar.snp.top).offset(-10)
         }
+    }
+    
+    @objc private func didTapUpButton() {
+        onTapUpButton?()
     }
 
     private func footerView() -> UIView {
