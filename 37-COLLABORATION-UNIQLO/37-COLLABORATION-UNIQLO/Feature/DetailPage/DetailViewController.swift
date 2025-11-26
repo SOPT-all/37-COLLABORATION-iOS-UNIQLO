@@ -55,15 +55,34 @@ final class DetailViewController: UIViewController {
         }
     }
     
-    private func getProductInfo() {
-        Task { @MainActor in
-            do {
-                let result = try await productInfoService.getProductInfo(productID: productID)
-                infoResponse = result
-                detailPageView.tableView.reloadData()
-            } catch {
-                print("error in getProductInfo")
-            }
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        navigationController?.isNavigationBarHidden = true
+    }
+    
+    override func setDelegate() {
+        detailPageView.tableView.dataSource = self
+        detailPageView.tableView.delegate = self
+    }
+    
+    override func setAddTarget() {
+        detailPageView.navigationBar.backButton.addTarget(self, action: #selector(backButtonDidTap), for: .touchUpInside)
+        detailPageView.upButton.addTarget(self, action: #selector(scrollToTop), for: .touchUpInside)
+    }
+
+    func setProductID(id: Int) {
+        self.productID = id
+    }
+    
+    private func footer() -> UIView {
+        return UIView().then {
+            $0.frame = CGRect(
+                x: 0,
+                y: 0,
+                width: detailPageView.tableView.frame.width,
+                height: 108
+            )
+            $0.backgroundColor = .white
         }
     }
 
