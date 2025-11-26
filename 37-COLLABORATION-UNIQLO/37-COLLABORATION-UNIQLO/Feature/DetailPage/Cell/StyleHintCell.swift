@@ -11,7 +11,8 @@ import SnapKit
 import Then
 
 final class StyleHintCell: UITableViewCell {
-    private let items: [UIImage?] = [.outer1, .outer2, .outer3, .outer4, .outer5]
+    
+    private var items: [String] = []
 
     private let titleLabel = UILabel()
     private let moreButton = UIButton(type: .system)
@@ -39,6 +40,11 @@ final class StyleHintCell: UITableViewCell {
 
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
+    }
+    
+    func configure(urls: [String]) {
+        self.items = urls
+        collectionView.reloadData()
     }
 
     private func setStyle() {
@@ -106,7 +112,9 @@ extension StyleHintCell: UICollectionViewDataSource, UICollectionViewDelegate {
         guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "StyleHintItemCell", for: indexPath) as? StyleHintItemCell else {
             return UICollectionViewCell()
         }
-        cell.configure(item: items[indexPath.row])
+        
+        let urlString = items[indexPath.row]
+        cell.configure(urlString: urlString)
         return cell
     }
 }

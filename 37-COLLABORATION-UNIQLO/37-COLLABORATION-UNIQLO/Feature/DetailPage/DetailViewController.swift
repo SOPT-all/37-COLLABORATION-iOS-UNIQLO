@@ -9,8 +9,11 @@ import UIKit
 
 import SnapKit
 
-final class DetailViewController: BaseViewController {
-    private(set) var productID: Int = 1
+final class DetailViewController: UIViewController {
+    private(set) var productID: Int?
+    
+    private let service: ProductStyleHintService = DefaultStyleHintService()
+    private var styleHintURLs: [String] = []
 
     private let header = DetailHeaderView()
     private let detailPageView = DetailPageView()
@@ -33,16 +36,23 @@ final class DetailViewController: BaseViewController {
         super.viewDidLoad()
         getProductDetails()
         getProductInfo()
-        getReviews()
         register()
         setAddTarget()
         setDelegate()
         setTabSelectionHandler()
+        getStyleHints(productID: productID)
     }
     
-    override func viewDidLayoutSubviews() {
-        super.viewDidLayoutSubviews()
-        detailPageView.tableView.tableFooterView = footer()
+    private func getProductDetails() {
+        Task { @MainActor in
+            do {
+                let result = try await productDetailService.getProductDetails(productID: productID)
+                detailResponse = result
+                detailPageView.tableView.reloadData()
+            } catch {
+                print("error in getProductDetails")
+            }
+        }
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -75,7 +85,7 @@ final class DetailViewController: BaseViewController {
             $0.backgroundColor = .white
         }
     }
-    
+
     private func register() {
         detailPageView.tableView.register(
             ProductSummaryCell.self,
@@ -138,11 +148,9 @@ final class DetailViewController: BaseViewController {
             }
         }
     }
-    
-    @objc
-    private func backButtonDidTap() {
-        print("터치")
-        self.navigationController?.popViewController(animated: false)
+
+    func setProductID(id: Int) {
+        self.productID = id
     }
 }
 
@@ -177,6 +185,7 @@ extension DetailViewController: UITableViewDataSource, UITableViewDelegate {
 
         case 4:
             let cell: StyleHintCell = tableView.dequeueReusableCell(for: indexPath)
+            cell.configure(urls: styleHintURLs)
             return cell
 
         case 6:

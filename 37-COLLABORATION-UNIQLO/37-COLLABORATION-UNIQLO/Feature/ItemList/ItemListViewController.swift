@@ -5,6 +5,7 @@
 //  Created by 정윤아 on 11/21/25.
 //
 import UIKit
+
 import SnapKit
 import Then
 
@@ -28,7 +29,6 @@ final class ItemListViewController: BaseViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        //        loadMockData()
         setDelegate()
         getProductList()
         setAddTarget()
@@ -41,12 +41,6 @@ final class ItemListViewController: BaseViewController {
     
     override func setAddTarget() {
         itemListView.topNavigationBar.backButton.addTarget(self, action: #selector(backButtonDidTap), for: .touchUpInside)
-    }
-    
-    private func loadMockData() {
-        self.items = mockItems
-        itemListView.updateItemCount(items.count)
-        itemListView.collectionView.reloadData()
     }
     
     private func getProductList() {
@@ -92,5 +86,16 @@ extension ItemListViewController: UICollectionViewDelegateFlowLayout {
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
         let width = (collectionView.frame.width / 2) - 2
         return CGSize(width: width, height: 407)
+    }
+}
+
+extension ItemListViewController: UICollectionViewDelegate {
+    func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
+        let selectedItem = items[indexPath.item]
+        
+        let detailViewController = DetailViewController()
+        detailViewController.setProductId(selectedItem.productId)
+        
+        navigationController?.pushViewController(detailViewController, animated: true)
     }
 }

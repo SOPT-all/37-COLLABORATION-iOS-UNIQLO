@@ -6,6 +6,7 @@
 //
 
 struct Item {
+    let productId: Int
     let imageUrl: String
     let colors: [String] //#hex
     let gender: String
@@ -17,54 +18,3 @@ struct Item {
     let rating: Double
     let reviewCount: Int
 }
-
-let mockItems: [Item] = [
-    Item(
-        imageUrl: "outer1",
-        colors: ["#2F2F2F", "#B5B5B5"],
-        gender: "WOMEN",
-        size: "XS~XL",
-        itemName: "더블브레스트 테일러드 재킷",
-        originalPrice: 89900,
-        salePrice: 79900,
-        tagText: "온라인단독",
-        rating: 4.8,
-        reviewCount: 21
-    ),
-    Item(
-        imageUrl: "outer1",
-        colors: ["#2F2F2F", "#B5B5B5"],
-        gender: "WOMEN",
-        size: "XS~XL",
-        itemName: "더블브레스트 테일러드 재킷",
-        originalPrice: 89900,
-        salePrice: 79900,
-        tagText: "온라인단독",
-        rating: 4.8,
-        reviewCount: 21
-    ),
-    Item(
-        imageUrl: "outer1",
-        colors: ["#2F2F2F", "#B5B5B5"],
-        gender: "WOMEN",
-        size: "XS~XL",
-        itemName: "더블브레스트 테일러드 재킷",
-        originalPrice: 89900,
-        salePrice: 79900,
-        tagText: "온라인단독",
-        rating: 4.8,
-        reviewCount: 21
-    ),
-    Item(
-        imageUrl: "outer1",
-        colors: ["#2F2F2F", "#B5B5B5"],
-        gender: "WOMEN",
-        size: "XS~XL",
-        itemName: "더블브레스트 테일러드 재킷",
-        originalPrice: 89900,
-        salePrice: 79900,                 
-        tagText: "온라인단독",
-        rating: 4.8,
-        reviewCount: 21
-    )
-]

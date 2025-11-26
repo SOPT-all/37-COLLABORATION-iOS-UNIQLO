@@ -6,6 +6,7 @@
 //
 
 struct ProductListDTO: Codable {
+    let productId: Int
     let productImageUrl: String
     let colorCode: [String]
     let genderAndSizeRange: String
@@ -41,6 +42,7 @@ extension ProductListDTO {
         let size   = parts.dropFirst().joined(separator: ", ")
         
         return Item(
+            productId: productId,
             imageUrl: productImageUrl,
             colors: colorCode,
             gender: gender,
