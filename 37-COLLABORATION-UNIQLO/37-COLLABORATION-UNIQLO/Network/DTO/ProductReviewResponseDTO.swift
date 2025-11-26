@@ -34,7 +34,9 @@ extension ProductReviewTopResponseDTO {
                 color: dto.color,
                 fit: dto.fit,
                 content: dto.content,
-                genderAndHeight: "\(dto.gender) · \(dto.height)",
+                genderAndHeight: dto.gender == "선택하지않음" && dto.height == "선택하지않음"
+                    ? "선택하지않음"
+                    : "\(dto.gender) · 키: \(dto.height)",
                 recommend: dto.recommend,
                 date: dto.createdAt
             )
