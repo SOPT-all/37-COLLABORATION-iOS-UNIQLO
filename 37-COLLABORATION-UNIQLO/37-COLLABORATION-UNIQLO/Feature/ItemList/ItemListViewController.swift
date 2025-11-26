@@ -5,6 +5,7 @@
 //  Created by 정윤아 on 11/21/25.
 //
 import UIKit
+
 import SnapKit
 import Then
 
@@ -76,5 +77,15 @@ extension ItemListViewController: UICollectionViewDelegateFlowLayout {
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
         let width = (collectionView.frame.width / 2) - 2
         return CGSize(width: width, height: 407)
+    }
+}
+
+extension ItemListViewController: UICollectionViewDelegate {
+    func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
+        let selectedItem = items[indexPath.item]
+        
+        let detailViewController = DetailViewController(productID: selectedItem.productId)
+        
+        navigationController?.pushViewController(detailViewController, animated: true)
     }
 }
