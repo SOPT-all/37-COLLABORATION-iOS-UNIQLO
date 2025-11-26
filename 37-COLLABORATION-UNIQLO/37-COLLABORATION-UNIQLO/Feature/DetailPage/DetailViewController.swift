@@ -191,8 +191,15 @@ extension DetailViewController: UITableViewDataSource, UITableViewDelegate {
             
         case 6:
             let cell: ReviewCell = tableView.dequeueReusableCell(for: indexPath)
-            guard let reviewData = reviewData else { return cell }
-            cell.configure(items: reviewData)
+            guard let reviewData = reviewData,
+                  let infoResponse = infoResponse else {
+                return cell
+            }
+            cell.configure(
+                items: reviewData,
+                rate: infoResponse.starAverage,
+                reviewCount: infoResponse.reviewCount
+            )
             return cell
             
         default:

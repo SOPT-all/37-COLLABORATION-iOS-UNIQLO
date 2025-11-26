@@ -68,8 +68,14 @@ final class ReviewCell: UITableViewCell {
         }
     }
     
-    func configure(items: [ReviewModel]) {
+    func configure(
+        items: [ReviewModel],
+        rate: Float,
+        reviewCount: Int
+    ) {
+        header.configure(rate: rate, reviewCount: reviewCount)
         commentView1.configure(with: items[0])
         commentView2.configure(with: items[1])
+        
     }
 }
