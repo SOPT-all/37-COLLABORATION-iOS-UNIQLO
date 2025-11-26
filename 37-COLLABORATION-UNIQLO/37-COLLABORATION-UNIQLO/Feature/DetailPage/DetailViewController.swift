@@ -10,7 +10,7 @@ import UIKit
 import SnapKit
 
 final class DetailViewController: UIViewController {
-    private let productID: Int
+    private(set) var productID: Int = 1
 
     private let header = DetailHeaderView()
     private let detailPageView = DetailPageView()
@@ -21,15 +21,6 @@ final class DetailViewController: UIViewController {
 
     private let productInfoService = DefaultProductInfoService()
     private var infoResponse: ProductInfoResponse?
-
-    init(productID: Int) {
-        self.productID = productID
-        super.init(nibName: nil, bundle: nil)
-    }
-    
-    required init?(coder: NSCoder) {
-        fatalError("init(coder:) has not been implemented")
-    }
     
     override func loadView() {
         self.view = detailPageView
@@ -112,6 +103,10 @@ final class DetailViewController: UIViewController {
             )
             $0.backgroundColor = .white
         }
+    }
+
+    func setProductID(id: Int) {
+        self.productID = id
     }
 }
 
