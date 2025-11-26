@@ -38,6 +38,7 @@ final class ProductSummaryView: BaseView {
         colorLabel.do {
             $0.font = .pretendard(.captionR12)
             $0.textColor = .gray300
+            $0.text = "컬러: default"
         }
 
         priceLabel.do {
@@ -91,20 +92,23 @@ final class ProductSummaryView: BaseView {
             $0.bottom.equalToSuperview().inset(32)
         }
     }
+    
+    func configure(model: ProductInfoResponse) {
+        nameLabel.text = model.name
+        numberLabel.text = "제품번호: \(model.productId)"
+        priceLabel.text = model.originPrice.replacingOccurrences(of: "원", with: "")
+        reviewSummaryView.configure(rate: model.starAverage)
 
-    func configure(
-        name: String,
-        number: String,
-        colors: [ColorOption],
-        price: String
-    ) {
-        nameLabel.text = name
-        numberLabel.text = "제품번호: \(number)"
-        priceLabel.text = price
-        
+        let options: [ColorOption] = model.colorCode.compactMap { code in
+            guard let name = model.color[code] else {
+                return nil
+            }
+            return ColorOption(hex: code, name: name)
+        }
         colorSelectorView.onColorSelected = { [weak self] option in
             self?.colorLabel.text = "컬러: \(option.name)"
         }
-        colorSelectorView.configure(options: colors)
+
+        colorSelectorView.configure(options: options)
     }
 }

@@ -83,7 +83,7 @@ final class DetailInfoView: BaseView {
         }
     }
 
-    func configure(items: DetailData) {
+    func configure(items: ProductDetailResponse) {
         contents.arrangedSubviews.forEach { sub in
             contents.removeArrangedSubview(sub)
             sub.removeFromSuperview()
@@ -96,7 +96,7 @@ final class DetailInfoView: BaseView {
         detailStack.addArrangedSubviews(
             detailFeatureLabel,
             makeInfoStackView(
-                info: items.featureDetailText,
+                info: items.featureDetailTextList,
                 marker: .minus
             )
         )
@@ -109,13 +109,13 @@ final class DetailInfoView: BaseView {
         
         contents.addArrangedSubviews(
             makeInfoStackView(
-                info: items.descriptionText,
+                info: items.descriptionTextList,
                 marker: .bullet
             ),
             detailStack,
             sizeStack,
             makeInfoStackView(
-                info: items.sizeDetailText,
+                info: items.sizeDetailTextList,
                 marker: .bullet
             )
         )
