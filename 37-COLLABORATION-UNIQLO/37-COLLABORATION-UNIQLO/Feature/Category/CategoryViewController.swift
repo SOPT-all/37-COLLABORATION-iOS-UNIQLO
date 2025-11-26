@@ -68,7 +68,13 @@ extension CategoryViewController: UITableViewDataSource {
     }
 }
 
-extension CategoryViewController: UICollectionViewDelegate { }
+extension CategoryViewController: UICollectionViewDelegate {
+    func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
+        if indexPath.item == 2 {
+            self.navigationController?.pushViewController(ItemListViewController(), animated: true)
+        }
+    }
+}
 
 extension CategoryViewController: UICollectionViewDataSource {
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {

@@ -9,7 +9,7 @@ import UIKit
 
 import SnapKit
 
-final class DetailViewController: UIViewController {
+final class DetailViewController: BaseViewController {
     private(set) var productID: Int = 1
 
     private let header = DetailHeaderView()
@@ -22,6 +22,9 @@ final class DetailViewController: UIViewController {
     private let productInfoService = DefaultProductInfoService()
     private var infoResponse: ProductInfoResponse?
     
+    private let productReviewService = DefaultProductReviewService()
+    private var reviewData: [ReviewModel]?
+    
     override func loadView() {
         self.view = detailPageView
     }
@@ -30,57 +33,10 @@ final class DetailViewController: UIViewController {
         super.viewDidLoad()
         getProductDetails()
         getProductInfo()
+        getReviews()
         register()
         setDelegate()
         setTabSelectionHandler()
-    }
-    
-    private func getProductDetails() {
-        Task { @MainActor in
-            do {
-                let result = try await productDetailService.getProductDetails(productID: productID)
-                detailResponse = result
-                detailPageView.tableView.reloadData()
-            } catch {
-                print("error in getProductDetails")
-            }
-        }
-    }
-    
-    private func getProductInfo() {
-        Task { @MainActor in
-            do {
-                let result = try await productInfoService.getProductInfo(productID: productID)
-                infoResponse = result
-                detailPageView.tableView.reloadData()
-            } catch {
-                print("error in getProductInfo")
-            }
-        }
-    }
-
-    private func register() {
-        detailPageView.tableView.register(
-            ProductSummaryCell.self,
-            DetailInfoCell.self,
-            SizeInfoCell.self,
-            StyleHintCell.self,
-            ReviewCell.self,
-            DivideBarCell.self
-        )
-    }
-    
-    private func setDelegate() {
-        detailPageView.tableView.dataSource = self
-        detailPageView.tableView.delegate = self
-    }
-    
-    private func setTabSelectionHandler() {
-        header.onTabSelected = { [weak self] index in
-            self?.moving = true
-            let indexPath = IndexPath(row: index * 2, section: 1)
-            self?.detailPageView.tableView.scrollToRow(at: indexPath, at: .top, animated: true)
-        }
     }
     
     override func viewDidLayoutSubviews() {
@@ -90,7 +46,20 @@ final class DetailViewController: UIViewController {
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
-        navigationController?.setNavigationBarHidden(true, animated: true)
+        navigationController?.isNavigationBarHidden = true
+    }
+    
+    override func setDelegate() {
+        detailPageView.tableView.dataSource = self
+        detailPageView.tableView.delegate = self
+    }
+    
+    override func setAddTarget() {
+        detailPageView.navigationBar.backButton.addTarget(self, action: #selector(backButtonDidTap), for: .touchUpInside)
+    }
+
+    func setProductID(id: Int) {
+        self.productID = id
     }
     
     private func footer() -> UIView {
@@ -104,9 +73,70 @@ final class DetailViewController: UIViewController {
             $0.backgroundColor = .white
         }
     }
-
-    func setProductID(id: Int) {
-        self.productID = id
+    
+    private func register() {
+        detailPageView.tableView.register(
+            ProductSummaryCell.self,
+            DetailInfoCell.self,
+            SizeInfoCell.self,
+            StyleHintCell.self,
+            ReviewCell.self,
+            DivideBarCell.self
+        )
+    }
+    
+    private func setTabSelectionHandler() {
+        header.onTabSelected = { [weak self] index in
+            self?.moving = true
+            let indexPath = IndexPath(row: index * 2, section: 1)
+            self?.detailPageView.tableView.scrollToRow(at: indexPath, at: .top, animated: true)
+        }
+    }
+    
+    private func getProductDetails() {
+        Task { @MainActor in
+            do {
+                let result = try await productDetailService.getProductDetails(productID: productID)
+                detailResponse = result
+                
+                let indexPath = IndexPath(row: 0, section: 1)
+                detailPageView.tableView.reloadRows(at: [indexPath], with: .automatic)
+            } catch {
+                print("error in getProductDetails")
+            }
+        }
+    }
+    
+    private func getProductInfo() {
+        Task { @MainActor in
+            do {
+                let result = try await productInfoService.getProductInfo(productID: productID)
+                infoResponse = result
+                let indexPath = IndexPath(row: 2, section: 1)
+                detailPageView.tableView.reloadRows(at: [indexPath], with: .automatic)
+            } catch {
+                print("error in getProductInfo")
+            }
+        }
+    }
+    
+    private func getReviews() {
+        Task {
+            do {
+                let result = try await productReviewService.getProductReviews(productId: productID)
+                let indexPath = IndexPath(row: 6, section: 1)
+                self.reviewData = result
+                detailPageView.tableView.reloadRows(at: [indexPath], with: .automatic)
+            } catch {
+                print("error in getReviews")
+            }
+        }
+    }
+    
+    @objc
+    private func backButtonDidTap() {
+        print("터치")
+        self.navigationController?.popViewController(animated: false)
     }
 }
 
@@ -145,7 +175,8 @@ extension DetailViewController: UITableViewDataSource, UITableViewDelegate {
 
         case 6:
             let cell: ReviewCell = tableView.dequeueReusableCell(for: indexPath)
-            cell.configure(items: ReviewModel.MockData)
+            guard let reviewData = reviewData else { return cell }
+            cell.configure(items: reviewData)
             return cell
 
         default:

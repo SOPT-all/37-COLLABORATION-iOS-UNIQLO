@@ -10,7 +10,7 @@ import Then
 
 final class ItemListView: BaseView {
     
-    private let topNavigationBar = TopNavigationBar()
+    private(set) var topNavigationBar = TopNavigationBar()
     
     let categoryTabBarView = CategoryTabBarView(tabType: .productView)
     
@@ -45,6 +45,7 @@ final class ItemListView: BaseView {
         
         topNavigationBar.do {
             $0.backgroundColor = .white
+            $0.isUserInteractionEnabled = true
         }
         
         filterStackView.do {
@@ -83,6 +84,7 @@ final class ItemListView: BaseView {
         topNavigationBar.snp.makeConstraints {
             $0.top.equalToSuperview().inset(50)
             $0.horizontalEdges.equalToSuperview()
+            $0.height.equalTo(58)
         }
         
         categoryTabBarView.snp.makeConstraints {

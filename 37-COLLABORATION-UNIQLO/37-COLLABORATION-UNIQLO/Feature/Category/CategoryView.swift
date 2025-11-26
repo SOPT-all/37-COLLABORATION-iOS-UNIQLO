@@ -9,7 +9,7 @@ import UIKit
 
 final class CategoryView: BaseView {
     
-    private let topNavigationBar = TopNavigationBar()
+    let topNavigationBar = TopNavigationBar()
     private let categoryTab = CategoryTabBarView(tabType: .categoryView)
     
     private(set) var sideTableView = UITableView()
