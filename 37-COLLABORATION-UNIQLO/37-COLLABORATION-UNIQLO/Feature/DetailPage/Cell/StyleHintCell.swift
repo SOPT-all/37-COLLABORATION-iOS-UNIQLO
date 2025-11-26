@@ -14,7 +14,7 @@ final class StyleHintCell: UITableViewCell {
     private let items: [UIImage?] = [.outer1, .outer2, .outer3, .outer4, .outer5]
 
     private let titleLabel = UILabel()
-    private let moreButton = UIButton()
+    private let moreButton = UIButton(type: .system)
 
     private lazy var collectionView: UICollectionView = {
         let layout = collectionViewLayout()

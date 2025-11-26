@@ -15,4 +15,5 @@ struct ProductInfoResponse: Decodable {
     let name: String
     let originPrice: String
     let starAverage: Float
+    let reviewCount: Int
 }

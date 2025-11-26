@@ -66,4 +66,13 @@ final class IconTextButton: UIButton {
             $0.trailing.equalToSuperview().inset(15)
         }
     }
+    
+    override var isHighlighted: Bool {
+        didSet {
+            UIView.animate(withDuration: 0.1) {
+                self.alpha = self.isHighlighted ? 0.5 : 1.0
+                self.backgroundColor = self.isHighlighted ? .gray : .white
+            }
+        }
+    }
 }

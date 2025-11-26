@@ -13,7 +13,7 @@ import Then
 final class DetailBottomBar: BaseView {
     private let underLineBar = UnderLineView()
     private let heartButton = IconCircleButton(type: .heart)
-    private let cartButton = UIButton()
+    private let cartButton = UIButton(type: .system)
 
     override func setStyle() {
         cartButton.do {

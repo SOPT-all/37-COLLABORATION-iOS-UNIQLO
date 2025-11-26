@@ -14,9 +14,9 @@ final class DetailPageView: BaseView {
 
     let tableView =  UITableView(frame: .zero, style: .plain)
 
+    let upButton = IconCircleButton(type: .up)
     private(set) var navigationBar = TopNavigationBar()
     private let shareButton = IconCircleButton(type: .share)
-    private let upButton = IconCircleButton(type: .up)
     private let bottomBar = DetailBottomBar()
 
     override init(frame: CGRect) {

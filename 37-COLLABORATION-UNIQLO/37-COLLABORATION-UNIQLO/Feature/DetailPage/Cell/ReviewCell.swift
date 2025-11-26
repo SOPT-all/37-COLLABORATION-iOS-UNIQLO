@@ -14,7 +14,7 @@ final class ReviewCell: UITableViewCell {
     private let header = ReviewHeader()
     private let commentView1 = ReviewItemView()
     private let commentView2 = ReviewItemView()
-    private let moreButton = UIButton()
+    private let moreButton = UIButton(type: .system)
     
     private let container = UIStackView()
 
