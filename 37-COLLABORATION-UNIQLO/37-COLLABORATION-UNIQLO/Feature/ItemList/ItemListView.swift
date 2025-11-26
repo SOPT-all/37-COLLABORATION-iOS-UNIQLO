@@ -46,6 +46,7 @@ final class ItemListView: BaseView {
         topNavigationBar.do {
             $0.backgroundColor = .white
         }
+        
         filterStackView.do {
             $0.axis = .horizontal
             $0.spacing = 4

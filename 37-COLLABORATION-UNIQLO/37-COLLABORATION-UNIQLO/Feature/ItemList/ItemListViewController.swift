@@ -12,6 +12,8 @@ final class ItemListViewController: BaseViewController {
     
     private let itemListView = ItemListView()
     
+    private let service: ProductListService = DefaultProductListService()
+    
     private var items: [Item] = []
     
     override func loadView() {
@@ -21,8 +23,9 @@ final class ItemListViewController: BaseViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        loadMockData()
+        //        loadMockData()
         setDelegate()
+        getProductList()
     }
     
     override func setDelegate() {
@@ -34,6 +37,23 @@ final class ItemListViewController: BaseViewController {
         self.items = mockItems
         itemListView.updateItemCount(items.count)
         itemListView.collectionView.reloadData()
+    }
+    
+    private func getProductList() {
+        Task {
+            do {
+                let products = try await service.getProductList()
+                
+                await MainActor.run {
+                    self.items = products
+                    self.itemListView.updateItemCount(self.items.count)
+                    self.itemListView.collectionView.reloadData()
+                }
+                
+            } catch {
+                print("상품 목록 불러오기 실패: \(error)")
+            }
+        }
     }
 }
 

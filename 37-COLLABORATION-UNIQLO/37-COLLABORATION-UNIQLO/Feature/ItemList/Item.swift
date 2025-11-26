@@ -20,50 +20,50 @@ struct Item {
 
 let mockItems: [Item] = [
     Item(
-        imageUrl: "outer1",              // Assets에 있는 이미지 이름
-        colors: ["#2F2F2F", "#B5B5B5"],            // 검정/실버 칩
+        imageUrl: "outer1",
+        colors: ["#2F2F2F", "#B5B5B5"],
         gender: "WOMEN",
         size: "XS~XL",
         itemName: "더블브레스트 테일러드 재킷",
         originalPrice: 89900,
-        salePrice: 79900,                           // 할인 O
-        tagText: "온라인단독",                      // nil이면 표시 안 됨
+        salePrice: 79900,
+        tagText: "온라인단독",
         rating: 4.8,
         reviewCount: 21
     ),
     Item(
-        imageUrl: "outer1",              // Assets에 있는 이미지 이름
-        colors: ["#2F2F2F", "#B5B5B5"],            // 검정/실버 칩
+        imageUrl: "outer1",
+        colors: ["#2F2F2F", "#B5B5B5"],
         gender: "WOMEN",
         size: "XS~XL",
         itemName: "더블브레스트 테일러드 재킷",
         originalPrice: 89900,
-        salePrice: 79900,                           // 할인 O
-        tagText: "온라인단독",                      // nil이면 표시 안 됨
+        salePrice: 79900,
+        tagText: "온라인단독",
         rating: 4.8,
         reviewCount: 21
     ),
     Item(
-        imageUrl: "outer1",              // Assets에 있는 이미지 이름
-        colors: ["#2F2F2F", "#B5B5B5"],            // 검정/실버 칩
+        imageUrl: "outer1",
+        colors: ["#2F2F2F", "#B5B5B5"],
         gender: "WOMEN",
         size: "XS~XL",
         itemName: "더블브레스트 테일러드 재킷",
         originalPrice: 89900,
-        salePrice: 79900,                           // 할인 O
-        tagText: "온라인단독",                      // nil이면 표시 안 됨
+        salePrice: 79900,
+        tagText: "온라인단독",
         rating: 4.8,
         reviewCount: 21
     ),
     Item(
-        imageUrl: "outer1",              // Assets에 있는 이미지 이름
-        colors: ["#2F2F2F", "#B5B5B5"],            // 검정/실버 칩
+        imageUrl: "outer1",
+        colors: ["#2F2F2F", "#B5B5B5"],
         gender: "WOMEN",
         size: "XS~XL",
         itemName: "더블브레스트 테일러드 재킷",
         originalPrice: 89900,
-        salePrice: 79900,                           // 할인 O
-        tagText: "온라인단독",                      // nil이면 표시 안 됨
+        salePrice: 79900,                 
+        tagText: "온라인단독",
         rating: 4.8,
         reviewCount: 21
     )
