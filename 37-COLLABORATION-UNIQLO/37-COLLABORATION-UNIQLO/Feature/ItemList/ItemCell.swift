@@ -149,8 +149,8 @@ final class ItemCell: UICollectionViewCell {
         }
         
         starImageView.snp.makeConstraints {
-                $0.height.width.equalTo(20)
-            }
+            $0.height.width.equalTo(20)
+        }
         
         infoStackView.snp.makeConstraints {
             $0.horizontalEdges.equalToSuperview().inset(10)

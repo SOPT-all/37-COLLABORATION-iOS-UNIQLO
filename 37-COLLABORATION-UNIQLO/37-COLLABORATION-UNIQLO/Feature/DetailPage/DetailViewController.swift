@@ -10,7 +10,7 @@ import UIKit
 import SnapKit
 
 final class DetailViewController: UIViewController {
-    private(set) var productID: Int
+    private(set) var productID: Int?
     
     private let service: ProductStyleHintService = DefaultStyleHintService()
     private var styleHintURLs: [String] = []
@@ -25,30 +25,30 @@ final class DetailViewController: UIViewController {
     private let productInfoService = DefaultProductInfoService()
     private var infoResponse: ProductInfoResponse?
     
-    init(productID: Int) {
-        self.productID = productID
-        super.init(nibName: nil, bundle: nil)
-    }
-
-    required init?(coder: NSCoder) {
-        fatalError("init(coder:) has not been implemented")
-    }
-    
     override func loadView() {
         self.view = detailPageView
     }
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        getProductDetails()
-        getProductInfo()
+        
+        guard let productID else {
+            return
+        }
+        
+        getProductDetails(productID: productID)
+        getProductInfo(productID: productID)
         register()
         setDelegate()
         setTabSelectionHandler()
-        getStyleHints()
+        getStyleHints(productID: productID)
     }
     
-    private func getProductDetails() {
+    func setProductId(_ id: Int) {
+        self.productID = id
+    }
+    
+    private func getProductDetails(productID: Int) {
         Task { @MainActor in
             do {
                 let result = try await productDetailService.getProductDetails(productID: productID)
@@ -60,7 +60,7 @@ final class DetailViewController: UIViewController {
         }
     }
     
-    private func getProductInfo() {
+    private func getProductInfo(productID: Int) {
         Task { @MainActor in
             do {
                 let result = try await productInfoService.getProductInfo(productID: productID)
@@ -72,7 +72,7 @@ final class DetailViewController: UIViewController {
         }
     }
     
-    private func getStyleHints() {
+    private func getStyleHints(productID: Int) {
         Task { [weak self] in
             guard let self else {
                 return

@@ -24,7 +24,6 @@ final class ItemListViewController: BaseViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        //        loadMockData()
         setDelegate()
         getProductList()
     }
@@ -32,12 +31,6 @@ final class ItemListViewController: BaseViewController {
     override func setDelegate() {
         itemListView.collectionView.dataSource = self
         itemListView.collectionView.delegate = self
-    }
-    
-    private func loadMockData() {
-        self.items = mockItems
-        itemListView.updateItemCount(items.count)
-        itemListView.collectionView.reloadData()
     }
     
     private func getProductList() {
@@ -84,7 +77,8 @@ extension ItemListViewController: UICollectionViewDelegate {
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         let selectedItem = items[indexPath.item]
         
-        let detailViewController = DetailViewController(productID: selectedItem.productId)
+        let detailViewController = DetailViewController()
+        detailViewController.setProductId(selectedItem.productId)
         
         navigationController?.pushViewController(detailViewController, animated: true)
     }
