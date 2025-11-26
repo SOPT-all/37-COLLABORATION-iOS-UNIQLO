@@ -35,9 +35,9 @@ final class DetailViewController: BaseViewController {
         getProductInfo()
         getReviews()
         register()
+        setAddTarget()
         setDelegate()
         setTabSelectionHandler()
-        setUpButtonHandler()
     }
     
     override func viewDidLayoutSubviews() {
@@ -84,6 +84,10 @@ final class DetailViewController: BaseViewController {
             ReviewCell.self,
             DivideBarCell.self
         )
+    }
+    
+    @objc private func scrollToTop() {
+        detailPageView.tableView.setContentOffset(.zero, animated: true)
     }
     
     private func setTabSelectionHandler() {
