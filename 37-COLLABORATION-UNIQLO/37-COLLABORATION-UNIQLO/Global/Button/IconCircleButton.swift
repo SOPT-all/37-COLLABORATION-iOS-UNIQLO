@@ -81,6 +81,15 @@ final class IconCircleButton: UIButton {
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
+    
+    override var isHighlighted: Bool {
+        didSet {
+            UIView.animate(withDuration: 0.1) {
+                self.alpha = self.isHighlighted ? 0.5 : 1.0
+                self.backgroundColor = self.isHighlighted ? .gray : self.type.backgroundColor
+            }
+        }
+    }
 }
 
 extension IconCircleButton {

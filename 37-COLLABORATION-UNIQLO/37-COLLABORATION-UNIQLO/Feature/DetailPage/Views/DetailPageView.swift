@@ -14,9 +14,9 @@ final class DetailPageView: BaseView {
 
     let tableView =  UITableView(frame: .zero, style: .plain)
 
-    private let navi = TopNavigationBar()
+    let upButton = IconCircleButton(type: .up)
+    private(set) var navigationBar = TopNavigationBar()
     private let shareButton = IconCircleButton(type: .share)
-    private let upButton = IconCircleButton(type: .up)
     private let bottomBar = DetailBottomBar()
 
     override init(frame: CGRect) {
@@ -42,7 +42,7 @@ final class DetailPageView: BaseView {
     override func setUI() {
         addSubviews(
             tableView,
-            navi,
+            navigationBar,
             shareButton,
             upButton,
             bottomBar
@@ -50,13 +50,13 @@ final class DetailPageView: BaseView {
     }
 
     override func setLayout() {
-        navi.snp.makeConstraints {
+        navigationBar.snp.makeConstraints {
             $0.top.equalTo(safeAreaLayoutGuide.snp.top)
             $0.leading.trailing.equalToSuperview()
         }
 
         tableView.snp.makeConstraints {
-            $0.top.equalTo(navi.snp.bottom)
+            $0.top.equalTo(navigationBar.snp.bottom)
             $0.horizontalEdges.equalToSuperview()
             $0.bottom.equalTo(bottomBar.snp.top)
         }

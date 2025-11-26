@@ -25,30 +25,25 @@ final class DetailViewController: UIViewController {
     private let productInfoService = DefaultProductInfoService()
     private var infoResponse: ProductInfoResponse?
     
+    private let productReviewService = DefaultProductReviewService()
+    private var reviewData: [ReviewModel]?
+    
     override func loadView() {
         self.view = detailPageView
     }
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        
-        guard let productID else {
-            return
-        }
-        
-        getProductDetails(productID: productID)
-        getProductInfo(productID: productID)
+        getProductDetails()
+        getProductInfo()
         register()
+        setAddTarget()
         setDelegate()
         setTabSelectionHandler()
         getStyleHints(productID: productID)
     }
     
-    func setProductId(_ id: Int) {
-        self.productID = id
-    }
-    
-    private func getProductDetails(productID: Int) {
+    private func getProductDetails() {
         Task { @MainActor in
             do {
                 let result = try await productDetailService.getProductDetails(productID: productID)
@@ -60,7 +55,7 @@ final class DetailViewController: UIViewController {
         }
     }
     
-    private func getProductInfo(productID: Int) {
+    private func getProductInfo() {
         Task { @MainActor in
             do {
                 let result = try await productInfoService.getProductInfo(productID: productID)
@@ -68,28 +63,6 @@ final class DetailViewController: UIViewController {
                 detailPageView.tableView.reloadData()
             } catch {
                 print("error in getProductInfo")
-            }
-        }
-    }
-    
-    private func getStyleHints(productID: Int) {
-        Task { [weak self] in
-            guard let self else {
-                return
-            }
-            
-            do {
-                let urls = try await service.getStyleHints(productId: productID)
-                
-                await MainActor.run {
-                    self.styleHintURLs = urls
-                    self.detailPageView.tableView.reloadRows(
-                        at: [IndexPath(row: 4, section: 1)],
-                        with: .none
-                    )
-                }
-            } catch {
-                print("error int getStyleHints: \(error)")
             }
         }
     }
@@ -105,9 +78,8 @@ final class DetailViewController: UIViewController {
         )
     }
     
-    private func setDelegate() {
-        detailPageView.tableView.dataSource = self
-        detailPageView.tableView.delegate = self
+    @objc private func scrollToTop() {
+        detailPageView.tableView.setContentOffset(.zero, animated: true)
     }
     
     private func setTabSelectionHandler() {
@@ -118,26 +90,48 @@ final class DetailViewController: UIViewController {
         }
     }
     
-    override func viewDidLayoutSubviews() {
-        super.viewDidLayoutSubviews()
-        detailPageView.tableView.tableFooterView = footer()
-    }
-    
-    override func viewWillAppear(_ animated: Bool) {
-        super.viewWillAppear(animated)
-        navigationController?.setNavigationBarHidden(true, animated: true)
-    }
-    
-    private func footer() -> UIView {
-        return UIView().then {
-            $0.frame = CGRect(
-                x: 0,
-                y: 0,
-                width: detailPageView.tableView.frame.width,
-                height: 108
-            )
-            $0.backgroundColor = .white
+    private func getProductDetails() {
+        Task { @MainActor in
+            do {
+                let result = try await productDetailService.getProductDetails(productID: productID)
+                detailResponse = result
+                
+                let indexPath = IndexPath(row: 0, section: 1)
+                detailPageView.tableView.reloadRows(at: [indexPath], with: .automatic)
+            } catch {
+                print("error in getProductDetails")
+            }
         }
+    }
+    
+    private func getProductInfo() {
+        Task { @MainActor in
+            do {
+                let result = try await productInfoService.getProductInfo(productID: productID)
+                infoResponse = result
+                let indexPath = IndexPath(row: 2, section: 1)
+                detailPageView.tableView.reloadRows(at: [indexPath], with: .automatic)
+            } catch {
+                print("error in getProductInfo")
+            }
+        }
+    }
+    
+    private func getReviews() {
+        Task {
+            do {
+                let result = try await productReviewService.getProductReviews(productId: productID)
+                let indexPath = IndexPath(row: 6, section: 1)
+                self.reviewData = result
+                detailPageView.tableView.reloadRows(at: [indexPath], with: .automatic)
+            } catch {
+                print("error in getReviews")
+            }
+        }
+    }
+
+    func setProductID(id: Int) {
+        self.productID = id
     }
 }
 
@@ -177,7 +171,8 @@ extension DetailViewController: UITableViewDataSource, UITableViewDelegate {
 
         case 6:
             let cell: ReviewCell = tableView.dequeueReusableCell(for: indexPath)
-            cell.configure(items: ReviewModel.MockData)
+            guard let reviewData = reviewData else { return cell }
+            cell.configure(items: reviewData)
             return cell
 
         default:
