@@ -46,7 +46,16 @@ final class DetailViewController: BaseViewController {
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
-        navigationController?.setNavigationBarHidden(true, animated: true)
+        navigationController?.isNavigationBarHidden = true
+    }
+    
+    override func setDelegate() {
+        detailPageView.tableView.dataSource = self
+        detailPageView.tableView.delegate = self
+    }
+    
+    override func setAddTarget() {
+        detailPageView.navigationBar.backButton.addTarget(self, action: #selector(backButtonDidTap), for: .touchUpInside)
     }
 
     func setProductID(id: Int) {
@@ -74,11 +83,6 @@ final class DetailViewController: BaseViewController {
             ReviewCell.self,
             DivideBarCell.self
         )
-    }
-    
-    override func setDelegate() {
-        detailPageView.tableView.dataSource = self
-        detailPageView.tableView.delegate = self
     }
     
     private func setTabSelectionHandler() {
@@ -127,6 +131,12 @@ final class DetailViewController: BaseViewController {
                 print("error in getReviews")
             }
         }
+    }
+    
+    @objc
+    private func backButtonDidTap() {
+        print("터치")
+        self.navigationController?.popViewController(animated: false)
     }
 }
 

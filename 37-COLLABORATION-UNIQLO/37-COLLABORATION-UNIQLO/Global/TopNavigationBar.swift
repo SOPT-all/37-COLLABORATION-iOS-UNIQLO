@@ -7,12 +7,8 @@
 
 import UIKit
 
-protocol TopNavigationBarDelegate: AnyObject {
-    func backButtonDidTap()
-}
-
 final class TopNavigationBar: BaseView {
-    private let backButton = UIButton()
+    private(set) lazy var backButton = UIButton()
     private let searchButton = UIButton()
     private let cartButton = UIButton()
     
@@ -23,6 +19,7 @@ final class TopNavigationBar: BaseView {
     override func setStyle() {
         backButton.do {
             $0.setImage(.back, for: .normal)
+            $0.isUserInteractionEnabled = true
         }
         
         searchButton.do {

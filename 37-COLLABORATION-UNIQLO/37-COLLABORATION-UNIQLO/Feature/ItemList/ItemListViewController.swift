@@ -22,7 +22,7 @@ final class ItemListViewController: BaseViewController {
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
-        self.navigationItem.hidesBackButton = true
+        navigationController?.isNavigationBarHidden = true
     }
     
     override func viewDidLoad() {
@@ -31,11 +31,16 @@ final class ItemListViewController: BaseViewController {
         //        loadMockData()
         setDelegate()
         getProductList()
+        setAddTarget()
     }
     
     override func setDelegate() {
         itemListView.collectionView.dataSource = self
         itemListView.collectionView.delegate = self
+    }
+    
+    override func setAddTarget() {
+        itemListView.topNavigationBar.backButton.addTarget(self, action: #selector(backButtonDidTap), for: .touchUpInside)
     }
     
     private func loadMockData() {
@@ -59,6 +64,12 @@ final class ItemListViewController: BaseViewController {
                 print("상품 목록 불러오기 실패: \(error)")
             }
         }
+    }
+    
+    @objc
+    private func backButtonDidTap() {
+        print("터치")
+        self.navigationController?.popViewController(animated: false)
     }
 }
 
